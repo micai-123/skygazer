@@ -1,0 +1,95 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <title>SkyGazer Logo - 方案三：智能云图</title>
+  <desc>融合云朵、月亮和数据元素，展现AI驱动的智能气象预测系统</desc>
+  
+  <defs>
+    <linearGradient id="blue-bg-cloud" x1="0" y1="0" x2="512" y2="512">
+      <stop offset="0%" stop-color="#1E3A8A"/>
+      <stop offset="40%" stop-color="#2563EB"/>
+      <stop offset="100%" stop-color="#3B82F6"/>
+    </linearGradient>
+    
+    <linearGradient id="blue-stroke-cloud" x1="0" y1="0" x2="512" y2="512">
+      <stop offset="0%" stop-color="#60A5FA"/>
+      <stop offset="100%" stop-color="#93C5FD"/>
+    </linearGradient>
+    
+    <radialGradient id="moon-gradient-cloud" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFF9C4"/>
+      <stop offset="40%" stop-color="#FFEB3B"/>
+      <stop offset="70%" stop-color="#FFC107"/>
+      <stop offset="100%" stop-color="#FFB300"/>
+    </radialGradient>
+    
+    <linearGradient id="cloud-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F1F5F9"/>
+      <stop offset="100%" stop-color="#E2E8F0"/>
+    </linearGradient>
+    
+    <linearGradient id="data-node" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#06B6D4"/>
+      <stop offset="100%" stop-color="#0891B2"/>
+    </linearGradient>
+  </defs>
+  
+  <circle cx="256" cy="256" r="240" fill="url(#blue-bg-cloud)" stroke="url(#blue-stroke-cloud)" stroke-width="4"/>
+  
+  <path d="M180 320 Q140 320 140 280 Q140 240 180 240 Q180 200 220 200 Q240 160 280 160 Q340 160 340 220 Q380 220 380 260 Q380 320 340 320 Z" 
+        fill="url(#cloud-gradient)" opacity="0.9"/>
+  
+  <circle cx="280" cy="180" r="70" fill="url(#moon-gradient-cloud)"/>
+  
+  <g opacity="0.7">
+    <line x1="140" y1="140" x2="200" y2="180" stroke="#06B6D4" stroke-width="2"/>
+    <line x1="200" y1="180" x2="280" y2="160" stroke="#06B6D4" stroke-width="2"/>
+    <line x1="280" y1="160" x2="360" y2="180" stroke="#06B6D4" stroke-width="2"/>
+    <line x1="360" y1="180" x2="400" y2="140" stroke="#06B6D4" stroke-width="2"/>
+    
+    <line x1="140" y1="140" x2="160" y2="220" stroke="#06B6D4" stroke-width="2"/>
+    <line x1="160" y1="220" x2="200" y2="280" stroke="#06B6D4" stroke-width="2"/>
+    <line x1="200" y1="280" x2="280" y2="300" stroke="#06B6D4" stroke-width="2"/>
+    <line x1="280" y1="300" x2="360" y2="280" stroke="#06B6D4" stroke-width="2"/>
+    <line x1="360" y1="280" x2="400" y2="220" stroke="#06B6D4" stroke-width="2"/>
+    <line x1="400" y1="220" x2="400" y2="140" stroke="#06B6D4" stroke-width="2"/>
+    
+    <line x1="200" y1="180" x2="200" y2="280" stroke="#06B6D4" stroke-width="2"/>
+    <line x1="360" y1="180" x2="360" y2="280" stroke="#06B6D4" stroke-width="2"/>
+  </g>
+  
+  <circle cx="140" cy="140" r="8" fill="url(#data-node)"/>
+  <circle cx="200" cy="180" r="6" fill="url(#data-node)"/>
+  <circle cx="280" cy="160" r="7" fill="url(#data-node)"/>
+  <circle cx="360" cy="180" r="6" fill="url(#data-node)"/>
+  <circle cx="400" cy="140" r="8" fill="url(#data-node)"/>
+  
+  <circle cx="160" cy="220" r="5" fill="url(#data-node)"/>
+  <circle cx="200" cy="280" r="6" fill="url(#data-node)"/>
+  <circle cx="280" cy="300" r="7" fill="url(#data-node)"/>
+  <circle cx="360" cy="280" r="6" fill="url(#data-node)"/>
+  <circle cx="400" cy="220" r="5" fill="url(#data-node)"/>
+  
+  <g opacity="0.15">
+    <rect x="180" y="360" width="20" height="2" fill="#06B6D4"/>
+    <rect x="210" y="360" width="30" height="2" fill="#06B6D4"/>
+    <rect x="250" y="360" width="15" height="2" fill="#06B6D4"/>
+    <rect x="275" y="360" width="25" height="2" fill="#06B6D4"/>
+    <rect x="310" y="360" width="20" height="2" fill="#06B6D4"/>
+    
+    <rect x="190" y="370" width="15" height="2" fill="#06B6D4"/>
+    <rect x="215" y="370" width="25" height="2" fill="#06B6D4"/>
+    <rect x="250" y="370" width="20" height="2" fill="#06B6D4"/>
+    <rect x="280" y="370" width="30" height="2" fill="#06B6D4"/>
+    <rect x="320" y="370" width="15" height="2" fill="#06B6D4"/>
+    
+    <rect x="180" y="380" width="25" height="2" fill="#06B6D4"/>
+    <rect x="215" y="380" width="20" height="2" fill="#06B6D4"/>
+    <rect x="245" y="380" width="30" height="2" fill="#06B6D4"/>
+    <rect x="285" y="380" width="15" height="2" fill="#06B6D4"/>
+    <rect x="310" y="380" width="25" height="2" fill="#06B6D4"/>
+  </g>
+  
+  <circle cx="120" cy="100" r="6" fill="#FFD54F" opacity="0.8"/>
+  <circle cx="420" cy="420" r="8" fill="#FFD54F" opacity="0.85"/>
+  <circle cx="100" cy="400" r="5" fill="#FFD54F" opacity="0.7"/>
+  <circle cx="400" cy="100" r="7" fill="#FFD54F" opacity="0.75"/>
+</svg>

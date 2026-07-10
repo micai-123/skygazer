@@ -1,0 +1,45 @@
+# ===== 归档/压缩包（冗余备份，不纳入版本控制） =====
+*.tar.gz
+*.zip
+*.tar
+*.7z
+*.rar
+
+# ===== 构建产物 =====
+**/target/
+**/build/
+**/dist/
+**/out/
+**/.next/
+**/.nuxt/
+**/coverage/
+
+# ===== 依赖目录 =====
+**/node_modules/
+**/.venv/
+**/venv/
+**/env/
+
+# ===== 日志 =====
+**/logs/
+*.log
+
+# ===== 编辑器/IDE =====
+.idea/
+.vscode/
+*.iml
+*.swp
+
+# ===== 操作系统文件 =====
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# ===== Python 缓存 =====
+__pycache__/
+*.pyc
+*.pyo
+
+# ===== 环境变量 =====
+.env
+.env.local

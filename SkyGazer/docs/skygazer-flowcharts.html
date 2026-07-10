@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkyGazer 核心技术流程图</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: white;
+            font-size: 2.5em;
+            margin-bottom: 50px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .chart-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            margin-bottom: 60px;
+            padding: 40px;
+            position: relative;
+        }
+
+        .chart-title {
+            font-size: 1.8em;
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .chart-content {
+            overflow-x: auto;
+            display: flex;
+            justify-content: center;
+        }
+
+        .mermaid {
+            display: flex;
+            justify-content: center;
+        }
+
+        .export-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: transform 0.2s, box-shadow 0.2s;
+            z-index: 100;
+        }
+
+        .export-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .instructions {
+            background: rgba(255,255,255,0.95);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .instructions h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .instructions ul {
+            list-style-position: inside;
+            line-height: 1.8;
+        }
+
+        .instructions li {
+            margin-bottom: 8px;
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 20px;
+            }
+            
+            .export-btn {
+                display: none;
+            }
+            
+            .chart-container {
+                break-inside: avoid;
+                page-break-inside: avoid;
+                box-shadow: none;
+                border: 2px solid #ddd;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 SkyGazer 核心技术架构流程图</h1>
+
+        <div class="instructions">
+            <h3>📖 使用说明</h3>
+            <ul>
+                <li><strong>查看流程图：</strong>页面加载后自动渲染两个核心技术创新的详细流程图</li>
+                <li><strong>保存为图片：</strong>点击每个图表右上角的"📥 导出PNG"按钮即可下载高清图片</li>
+                <li><strong>打印/导出PDF：</strong>使用浏览器 Ctrl+P (或 Cmd+P) 可打印或导出为PDF格式</li>
+                <li><strong>最佳浏览：</strong>建议使用 Chrome/Edge 浏览器全屏查看以获得最佳效果</li>
+            </ul>
+        </div>
+
+        <!-- 流程图二：Function Calling -->
+        <div class="chart-container" id="chart2">
+            <button class="export-btn" onclick="exportChart('chart2', 'FunctionCalling')">📥 导出PNG</button>
+            <h2 class="chart-title">流程图二：Function Calling 防幻觉机制</h2>
+            <div class="chart-content">
+                <pre class="mermaid">
+flowchart LR
+    subgraph S1["🔍 阶段一：意图识别"]
+        direction TB
+        A1["<b><font size='20'>📝 用户提问</font></b><br/><br/><font size='18'><i>北京今天多少度？</i></font>"]
+        A2["<b><font size='20'>🤖 AI分析意图</font></b><br/><br/><font size='18'>✓ 识别需要获取实时温度数据</font><br/><font size='18'>✓ 确定数据类型：当前天气</font>"]
+        A1 --> A2
+    end
+
+    subgraph S2["⚙️ 阶段二：函数执行"]
+        direction TB
+        B1["<b><font size='20'>🛠️ 选择工具函数</font></b><br/><br/><font size='18'>getWeatherData(city)</font><br/><font size='16' color='#666'>[获取指定城市实时天气]</font>"]
+        B2["<b><font size='20'>🎯 提取参数</font></b><br/><br/><font size='18'>city = <b>'北京'</b></font>"]
+        B3["<b><font size='20'>☁️ 调用外部API</font></b><br/><br/><font size='18'>和风天气API → 返回真实数据</font><br/><font size='18'>{temp:25, humidity:60, wind:3}</font>"]
+        B4["<b><font size='20'>✅ 结果验证</font></b><br/><br/><font size='18'>✓ 数据来源可信</font><br/><font size='18'>✓ 时间戳最新</font>"]
+        B1 --> B2 --> B3 --> B4
+    end
+
+    subgraph S3["💡 阶段三：答案生成"]
+        direction TB
+        C1["<b><font size='20'>🔗 注入Prompt上下文</font></b><br/><br/><font size='18'>将真实数据嵌入LLM输入</font><br/><font size='16' color='#666'>System + FunctionResult + Question</font>"]
+        C2["<b><font size='20'>🧠 LLM生成回答</font></b><br/><br/><font size='18'>基于真实数据输出自然语言</font><br/><font size='18' color='#1565c0'><b>"北京今日气温25°C，体感舒适"</b></font>"]
+        C3["<b><font size='20'>📤 返回给用户</font></b><br/><br/><font size='18'>前端展示 + 数据溯源标记</font>"]
+        C1 --> C2 --> C3
+    end
+
+    S1 --> S2 --> S3
+
+    style S1 fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20,stroke-width:4px
+    style S2 fill:#fff3e0,stroke:#ef6c00,color:#e65100,stroke-width:4px
+    style S3 fill:#e3f2fd,stroke:#1565c0,color:#0d47a1,stroke-width:4px
+                </pre>
+            </div>
+        </div>
+
+        <!-- 流程图三：个性化引擎 -->
+        <div class="chart-container" id="chart3">
+            <button class="export-btn" onclick="exportChart('chart3', 'PersonalizationEngine')">📥 导出PNG</button>
+            <h2 class="chart-title">流程图三：个性化用户画像决策引擎（三竖列版）</h2>
+            <div class="chart-content">
+                <pre class="mermaid">
+flowchart TB
+    subgraph COL1["📥 第一列：多维数据采集层"]
+        direction TB
+        
+        N1_1["<b><font size='22'>👤 用户画像数据</font></b><hr/><br/>
+            <font size='19'><b>基础信息：</b></font><br/>
+            <font size='17'>• 年龄：65岁</font><br/>
+            <font size='17'>• 性别：男</font><br/><br/>
+            <font size='19'><b>健康状况：</b></font><br/>
+            <font size='17'>• 哮喘患者 ✓</font><br/>
+            <font size='17'>• 高血压 ✓</font><br/><br/>
+            <font size='19'><b>活动偏好：</b></font><br/>
+            <font size='17'>• 晨练跑步</font><br/>
+            <font size='17'>• 户外摄影</font>
+        "]
+        
+        N1_2["<b><font size='22'>❓ 用户提问输入</font></b><hr/><br/>
+            <font size='19'><i>"明天早上适合户外运动吗？"</i></font><br/><br/>
+            <font size='17'>📍 目标地点：北京<br/>🕐 计划时间：06:30 AM<br/>🎯 活动类型：慢跑5公里</font>
+        "]
+        
+        N1_3["<b><font size='22'>🌤️ 实时气象数据</font></b><hr/><br/>
+            <font size='19'><b>温度：</b>15°C（体感12°C）</font><br/><br/>
+            <font size='19'><b>降水概率：</b><font color='#c62828'><b>80%</b></font> 🌧️</font><br/><br/>
+            <font size='19'><b>空气质量：</b>AQI <font color='#ef6c00'><b>120</b></font> 轻度污染</font><br/><br/>
+            <font size='19'><b>花粉浓度：</b><font color='#c62828'><b>极高</b></font> ⚠️</font><br/><br/>
+            <font size='19'><b>风力：</b>北风3级</font><br/>
+            <font size='19'><b>能见度：</b>8公里</font>
+        "]
+        
+        N1_4["<b><font size='22'>📚 知识库检索结果</font></b><hr/><br/>
+            <font size='17'><b>📋 医学知识：</b></font><br/>
+            <font size='15'><i>"哮喘患者应避免在花粉浓度高、空气质量差的天气进行户外活动..."</i></font><br/><br/>
+            <font size='17'><b>📋 安全指南：</b></font><br/>
+            <font size='15'><i>"老年人晨练最佳时间：日出后1小时..."</i></font><br/><br/>
+            <font size='17'><b>📋 生活指数规则：</b></font><br/>
+            <font size='15'><i>"当AQI>100且降水>70%时，风险等级为HIGH..."</i></font>
+        "]
+        
+        N1_1 --> N1_2 --> N1_3 --> N1_4
+    end
+
+    subgraph COL2["⚙️ 第二列：智能处理引擎层"]
+        direction TB
+        
+        N2_1["<b><font size='22'>🔧 步骤一：画像解析与标准化</font></b><hr/><br/>
+            <font size='18'><b>输入：</b>原始JSON字符串</font><br/><br/>
+            <font size='18'><b>处理流程：</b></font><br/>
+            <font size='17'>① Jackson ObjectMapper反序列化</font><br/>
+            <font size='17'>② 字段完整性校验</font><br/>
+            <font size='17'>③ 默认值填充（缺失字段）</font><br/>
+            <font size='17'>④ 风险因子自动提取</font><br/><br/>
+            <font size='18'><b>输出：</b>结构化UserProfile对象</font><br/><br/>
+            <font size='17'>📊 敏感因素：[cold, pollen, pollution, humidity]</font>
+        "]
+        
+        N2_2["<b><font size='22'>🎯 步骤二：多维度风险评估</font></b><hr/><br/>
+            <font size='19'><b>评估公式：</b></font><br/>
+            <font size='18'><i>RiskScore = Σ(Wᵢ × Factorᵢ × Sensitivityᵢ)</i></font><br/><br/>
+            <font size='19'><b>各项评分明细：</b></font><br/><br/>
+            <font size='17'>🌡️ 温度风险 = 0.25 × |15-25| × 1.5(老年) = <b>3.75</b></font><br/><br/>
+            <font size='17'>💨 空气质量 = 0.35 × (120-50)/100 × 2.0(哮喘) = <b>4.90</b></font><br/><br/>
+            <font size='17'>🌸 花粉浓度 = 0.20 × 90% × 2.0(哮喘) = <b>3.60</b></font><br/><br/>
+            <font size='17'>🌧️ 降水影响 = 0.15 × 80% × 1.2 = <b>1.44</b></font><br/><br/>
+            <font size='19' color='#c62828'><b>总分：13.69 > 阈值10 → 🚫 HIGH RISK</b></font>
+        "]
+        
+        N2_3["<b><font size='22'>📝 步骤三：动态Prompt组装</font></b><hr/><br/>
+            <font size='18'><b>Prompt模板变量替换：</b></font><br/><br/>
+            <font size='17'>{{SYSTEM_ROLE}} → "专业气象健康顾问"</font><br/><br/>
+            <font size='17'>{{USER_PROFILE}} → "65岁男性，哮喘+高血压"</font><br/><br/>
+            <font size='17'>{{WEATHER_CONTEXT}} → "北京15°C，AQI120，降雨80%"</font><br/><br/>
+            <font size='17'>{{KNOWLEDGE_BASE}} → [3条医学+安全知识]</font><br/><br/>
+            <font size='17'>{{RISK_LEVEL}} → HIGH (13.69分)</font><br/><br/>
+            <font size='17'>{{OUTPUT_STYLE}} → professional/humorous/poetic</font><br/><br/>
+            <font size='18'><b>最终Prompt长度：</b>~2000 tokens</font>
+        "]
+        
+        N2_4["<b><font size='22'>🤖 步骤四：AI推理与后处理</font></b><hr/><br/>
+            <font size='18'><b>模型调用：</b>通义千问Plus (qwen-plus)</font><br/><br/>
+            <font size='18'><b>推理过程：</b></font><br/>
+            <font size='17'>① 接收完整Prompt</font><br/>
+            <font size='17'>② 多维信息融合理解</font><br/>
+            <font size='17'>③ 生成个性化决策建议</font><br/>
+            <font size='17'>④ 输出结构化JSON响应</font><br/><br/>
+            <font size='18'><b>后处理步骤：</b></font><br/>
+            <font size='17'>✓ 安全性过滤检查</font><br/>
+            <font size='17'>✓ Markdown格式渲染</font><br/>
+            <font size='17'>✓ 数据溯源ID附加</font><br/>
+            <font size='17'>✓ Redis缓存写入 (TTL=24h)</font>
+        "]
+        
+        N2_1 --> N2_2 --> N2_3 --> N2_4
+    end
+
+    subgraph COL3["📤 第三列：决策输出层"]
+        direction TB
+        
+        N3_1["<b><font size='22'>⚠️ 输出一：风险等级判定</font></b><hr/><br/>
+            <font size='24' color='#c62828'><b>═══ 🚫 高风险警告 ═══</b></font><br/><br/>
+            <font size='19'><b>综合风险评分：<font size='24'>13.69</font>/10</b></font><br/><br/>
+            <font size='18'><b>风险构成分析：</b></font><br/>
+            <font size='17'>████████░░ 空气质量 (36%) - 主因</font><br/>
+            <font size='17'>███████░░░ 花粉浓度 (26%) - 主因</font><br/>
+            <font size='17'>██████░░░░ 温度偏低 (27%)</font><br/>
+            <font size='17'>██░░░░░░░░ 降水影响 (11%)</font><br/><br/>
+            <font size='19' color='#c62828'><b>结论：强烈不建议执行原计划活动</b></font>
+        "]
+        
+        N3_2["<b><font size='22'>💡 输出二：核心决策建议</font></b><hr/><br/>
+            <font size='19'><b>📋 正式建议文本：</b></font><br/><br/>
+            <font size='17'><i>"尊敬的用户，您好！经过对您个人健康状况（65岁、哮喘病史）与北京明日气象条件（高花粉浓度、轻度空气污染、80%降雨概率）的综合智能分析，系统评估您的户外晨练风险为<b>高级别</b>。</i></font><br/><br/>
+            <font size='17'><i>基于医学专家知识与气象安全指南，我们强烈建议您取消明早的户外跑步计划，改为室内替代活动，以保障您的呼吸系统健康安全。"</i></font><br/><br/>
+            <font size='18'><b>建议语气风格：</b>专业严谨 · 关怀式</font>
+        "]
+        
+        N3_3["<b><font size='22'>✅ 输出三：替代方案推荐</font></b><hr/><br/>
+            <font size='19'><b>🏆 方案一（首选推荐）：</b></font><br/>
+            <font size='17'>✓ 室内太极拳练习（20-30分钟）</font><br/>
+            <font size='16' color='#666'>→ 低强度、改善心肺功能</font><br/><br/>
+            <font size='19'><b>🥈 方案二（次选推荐）：</b></font><br/>
+            <font size='17'>✓ 下午3点后开窗通风快走</font><br/>
+            <font size='16' color='#666'>→ 空气质量通常午后改善</font><br/><br/>
+            <font size='19'><b>🥉 方案三（备选方案）：</b></font><br/>
+            <font size='17'>✓ 使用空气净化器后室内瑜伽</font><br/>
+            <font size='16' color='#666'>→ 完全避免室外过敏原</font><br/><br/>
+            <font size='18'><b>恢复户外运动条件：</b>AQI<80 且 无降水</font>
+        "]
+        
+        N3_4["<b><font size='22'>📊 输出四：质量保障信息</font></b><hr/><br/>
+            <font size='18'><b>🔗 数据溯源：</b></font><br/>
+            <font size='17'>• 知识库引用ID：KB-20260411-0042</font><br/>
+            <font size='17'>• 天气数据源：和风天气API v7</font><br/>
+            <font size='17'>• 数据获取时间：2026-04-11 14:32:15</font><br/><br/>
+            <font size='18'><b>⏱️ 性能指标：</b></font><br/>
+            <font size='17'>• 总响应耗时：<b>1.86秒</b></font><br/>
+            <font size='17'>• AI推理耗时：1.42秒</font><br/>
+            <font size='17'>• 向量检索耗时：0.28秒</font><br/><br/>
+            <font size='18'><b>💾 缓存策略：</b></font><br/>
+            <font size='17'>• Redis Key：decision:user123:beijing:sport</font><br/>
+            <font size='17'>• TTL设置：24小时自动过期</font><br/>
+            <font size='17'>• 命中率预期：85%（相似查询复用）</font>
+        "]
+        
+        N3_1 --> N3_2 --> N3_3 --> N3_4
+    end
+
+    COL1 --> COL2 --> COL3
+
+    style COL1 fill:#fce4ec,stroke:#c62828,color:#b71c1c,stroke-width:4px
+    style COL2 fill:#fff9c4,stroke:#f9a825,color:#f57f17,stroke-width:4px
+    style COL3 fill:#e0f2f1,stroke:#00695c,color:#004d40,stroke-width:4px
+                </pre>
+            </div>
+        </div>
+
+        <div style="text-align: center; color: white; margin-top: 40px; font-size: 14px;">
+            <p>© 2026 SkyGazer 智观天象 - 基于Spring AI + RAG + Function Calling 的创新气象决策系统</p>
+        </div>
+    </div>
+
+    <script>
+        // 初始化Mermaid
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis',
+                padding: 20,
+                nodeSpacing: 80,
+                rankSpacing: 80,
+                diagramPadding: 30
+            },
+            securityLevel: 'loose'
+        });
+
+        // 导出功能
+        async function exportChart(chartId, filename) {
+            const element = document.getElementById(chartId);
+            const button = element.querySelector('.export-btn');
+            
+            // 临时隐藏按钮
+            button.style.display = 'none';
+            
+            try {
+                // 使用html2canvas截图
+                const canvas = await html2canvas(element, {
+                    scale: 2, // 高清输出
+                    useCORS: true,
+                    backgroundColor: '#ffffff',
+                    logging: false,
+                    width: element.scrollWidth,
+                    height: element.scrollHeight,
+                    windowWidth: element.scrollWidth,
+                    windowHeight: element.scrollHeight
+                });
+                
+                // 创建下载链接
+                const link = document.createElement('a');
+                link.download = `SkyGazer_${filename}_${new Date().toISOString().slice(0,10)}.png`;
+                link.href = canvas.toDataURL('image/png', 1.0);
+                link.click();
+                
+                alert(`✅ 图片已成功导出：${link.download}`);
+                
+            } catch (error) {
+                console.error('导出失败:', error);
+                alert('❌ 导出失败，请重试或使用截图工具');
+            } finally {
+                // 恢复按钮显示
+                button.style.display = 'block';
+            }
+        }
+
+        // 页面加载完成提示
+        window.addEventListener('load', function() {
+            console.log('🚀 SkyGazer 流程图已成功加载！');
+            console.log('💡 提示：点击右上角的"导出PNG"按钮可保存高清图片');
+        });
+    </script>
+</body>
+</html>

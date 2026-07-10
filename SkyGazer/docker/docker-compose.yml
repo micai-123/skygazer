@@ -1,0 +1,110 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+    container_name: skygazer-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - skygazer-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+  
+  backend:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    container_name: skygazer-backend
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - DB_HOST=mysql
+      - DB_USERNAME=root
+      - DB_PASSWORD=root
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - OPENAI_API_KEY=sk-868f07b5e71e453eb3f9f64bedc75c63
+      - OPENAI_BASE_URL=https://dashscope.aliyuncs.com/compatible-mode/v1
+      - AI_MODEL=qwen-plus
+      - AI_VISION_MODEL=qwen-vl-plus
+      - AI_EMBEDDING_MODEL=text-embedding-v3
+      - QWEATHER_API_KEY=d1f5b123e92c468a86a08826cf9d8fc6
+      - QWEATHER_BASE_URL=https://mv33jqaeug.re.qweatherapi.com/v7
+      - JWT_SECRET=skygazer-weather-secret-key-2026-must-be-at-least-256-bits-secure
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - skygazer-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+  
+  mysql:
+    image: mysql:8.0
+    container_name: skygazer-mysql
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=skygazer_weather
+      - MYSQL_CHARACTER_SET_SERVER=utf8mb4
+      - MYSQL_COLLATION_SERVER=utf8mb4_unicode_ci
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --default-authentication-plugin=mysql_native_password
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ../backend/src/main/resources/db/migration:/docker-entrypoint-initdb.d:ro
+    networks:
+      - skygazer-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+  
+  redis:
+    image: redis:6.0-alpine
+    container_name: skygazer-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - skygazer-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    command: redis-server --appendonly yes
+
+volumes:
+  mysql-data:
+    driver: local
+  redis-data:
+    driver: local
+
+networks:
+  skygazer-network:
+    driver: bridge

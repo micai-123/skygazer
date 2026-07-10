@@ -1,0 +1,58 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <title>SkyGazer Logo - 方案二：望远镜观测</title>
+  <desc>突出"观"字概念，将望远镜元素与月亮结合，直观展现气象观测的主题</desc>
+  
+  <defs>
+    <linearGradient id="blue-bg-telescope" x1="0" y1="0" x2="512" y2="512">
+      <stop offset="0%" stop-color="#0F172A"/>
+      <stop offset="50%" stop-color="#1E293B"/>
+      <stop offset="100%" stop-color="#1E40AF"/>
+    </linearGradient>
+    
+    <linearGradient id="blue-stroke-telescope" x1="0" y1="0" x2="512" y2="512">
+      <stop offset="0%" stop-color="#3B82F6"/>
+      <stop offset="100%" stop-color="#60A5FA"/>
+    </linearGradient>
+    
+    <radialGradient id="moon-gradient-telescope" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FCD34D"/>
+      <stop offset="50%" stop-color="#F59E0B"/>
+      <stop offset="100%" stop-color="#D97706"/>
+    </radialGradient>
+    
+    <linearGradient id="telescope-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#06B6D4"/>
+      <stop offset="100%" stop-color="#0891B2"/>
+    </linearGradient>
+    
+    <linearGradient id="data-flow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#06B6D4" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#06B6D4" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#06B6D4" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  
+  <circle cx="256" cy="256" r="240" fill="url(#blue-bg-telescope)" stroke="url(#blue-stroke-telescope)" stroke-width="4"/>
+  
+  <circle cx="340" cy="180" r="80" fill="url(#moon-gradient-telescope)"/>
+  
+  <g transform="translate(120, 280)">
+    <ellipse cx="60" cy="0" rx="80" ry="40" fill="url(#telescope-gradient)" opacity="0.9"/>
+    <rect x="60" y="-20" width="180" height="40" rx="8" fill="url(#telescope-gradient)" opacity="0.85"/>
+    <circle cx="240" cy="0" r="50" fill="none" stroke="url(#telescope-gradient)" stroke-width="8" opacity="0.8"/>
+    <circle cx="240" cy="0" r="35" fill="none" stroke="#06B6D4" stroke-width="4" opacity="0.6"/>
+  </g>
+  
+  <line x1="280" y1="180" x2="360" y2="260" stroke="url(#data-flow)" stroke-width="3" stroke-dasharray="8,4" opacity="0.6"/>
+  <line x1="300" y1="200" x2="380" y2="280" stroke="url(#data-flow)" stroke-width="2" stroke-dasharray="6,3" opacity="0.5"/>
+  <line x1="260" y1="160" x2="340" y2="240" stroke="url(#data-flow)" stroke-width="2" stroke-dasharray="6,3" opacity="0.4"/>
+  
+  <circle cx="140" cy="120" r="8" fill="#FFD54F" opacity="0.8"/>
+  <circle cx="420" cy="380" r="10" fill="#FFD54F" opacity="0.85"/>
+  <circle cx="100" cy="380" r="6" fill="#FFD54F" opacity="0.7"/>
+  <circle cx="400" cy="120" r="7" fill="#FFD54F" opacity="0.75"/>
+  
+  <circle cx="180" cy="160" r="4" fill="#06B6D4" opacity="0.6"/>
+  <circle cx="320" cy="400" r="5" fill="#06B6D4" opacity="0.65"/>
+  <circle cx="400" cy="300" r="3" fill="#06B6D4" opacity="0.55"/>
+</svg>

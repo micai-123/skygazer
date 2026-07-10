@@ -1,0 +1,141 @@
+version: '3.8'
+
+services:
+  # ==================== 前端服务 ====================
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+    container_name: skygazer-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - skygazer-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:80"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # ==================== 后端服务 ====================
+  backend:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    container_name: skygazer-backend
+    ports:
+      - "8080:8080"
+    env_file:
+      - ../config/.env.production
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - DB_HOST=mysql
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - OPENAI_BASE_URL=${OPENAI_BASE_URL}
+      - AI_MODEL=${AI_MODEL}
+      - AI_VISION_MODEL=${AI_VISION_MODEL}
+      - AI_EMBEDDING_MODEL=${AI_EMBEDDING_MODEL}
+      - QWEATHER_API_KEY=${QWEATHER_API_KEY}
+      - QWEATHER_BASE_URL=${QWEATHER_BASE_URL}
+      - QWEATHER_GEO_URL=${QWEATHER_GEO_URL}
+      - JWT_SECRET=${JWT_SECRET}
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - skygazer-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+        max-file: "5"
+
+  # ==================== MySQL数据库 ====================
+  mysql:
+    image: mysql:8.0
+    container_name: skygazer-mysql
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+      - MYSQL_DATABASE=skygazer_weather
+      - MYSQL_CHARACTER_SET_SERVER=utf8mb4
+      - MYSQL_COLLATION_SERVER=utf8mb4_unicode_ci
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --default-authentication-plugin=mysql_native_password
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ../backend/src/main/resources/db/migration:/docker-entrypoint-initdb.d:ro
+    networks:
+      - skygazer-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${DB_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+        max-file: "5"
+
+  # ==================== Redis缓存 ====================
+  redis:
+    image: redis:6.0-alpine
+    container_name: skygazer-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - skygazer-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    command: redis-server --appendonly yes
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+# ==================== 数据卷 ====================
+volumes:
+  mysql-data:
+    driver: local
+  redis-data:
+    driver: local
+
+# ==================== 网络 ====================
+networks:
+  skygazer-network:
+    driver: bridge

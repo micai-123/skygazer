@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkyGazer Logo设计方案展示</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #1e3a8a;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #3b82f6;
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+        }
+
+        .design-section {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .design-title {
+            color: #1e3a8a;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .design-badge {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .design-concept {
+            color: #64748b;
+            font-size: 1rem;
+            margin-bottom: 30px;
+            padding-left: 20px;
+            border-left: 4px solid #3b82f6;
+        }
+
+        .logo-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .showcase-item {
+            text-align: center;
+        }
+
+        .showcase-label {
+            color: #475569;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+        }
+
+        .bg-light {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border: 2px solid #e2e8f0;
+        }
+
+        .bg-dark {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+        }
+
+        .bg-gradient {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+        }
+
+        .size-info {
+            color: #94a3b8;
+            font-size: 0.8rem;
+        }
+
+        .design-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 2px solid #e2e8f0;
+        }
+
+        .detail-item {
+            padding: 20px;
+            background: #f8fafc;
+            border-radius: 12px;
+        }
+
+        .detail-title {
+            color: #1e3a8a;
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .detail-content {
+            color: #475569;
+            font-size: 0.95rem;
+        }
+
+        .color-palette {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .color-swatch {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            border: 2px solid white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .recommendation {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-left: 5px solid #f59e0b;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 40px;
+        }
+
+        .recommendation-title {
+            color: #92400e;
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .recommendation-content {
+            color: #78350f;
+            font-size: 0.95rem;
+        }
+
+        .footer {
+            text-align: center;
+            color: #64748b;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #e2e8f0;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .design-section {
+                padding: 20px;
+            }
+
+            .logo-showcase {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌙 SkyGazer Logo设计方案</h1>
+        <p class="subtitle">基于"Clear Night晴-夜晚"主题的三款品牌标识设计</p>
+
+        <!-- 方案一 -->
+        <div class="design-section">
+            <h2 class="design-title">
+                方案一：星月夜空
+                <span class="design-badge">推荐</span>
+            </h2>
+            <p class="design-concept">
+                以"Clear Night"为核心概念，通过简洁的圆形构图展现晴朗夜空中明月高悬、繁星点点的景象。
+            </p>
+
+            <div class="logo-showcase">
+                <div class="showcase-item">
+                    <div class="showcase-label">大尺寸 (512x512)</div>
+                    <div class="logo-container bg-light">
+                        <img src="logo-design-1.svg" alt="Logo方案一" style="width: 200px; height: 200px;">
+                    </div>
+                    <div class="size-info">适用于：品牌展示、印刷品</div>
+                </div>
+
+                <div class="showcase-item">
+                    <div class="showcase-label">中尺寸 (128x128)</div>
+                    <div class="logo-container bg-dark">
+                        <img src="logo-design-1.svg" alt="Logo方案一" style="width: 80px; height: 80px;">
+                    </div>
+                    <div class="size-info">适用于：导航栏、页脚</div>
+                </div>
+
+                <div class="showcase-item">
+                    <div class="showcase-label">小尺寸 (32x32)</div>
+                    <div class="logo-container bg-gradient">
+                        <img src="logo-design-1.svg" alt="Logo方案一" style="width: 32px; height: 32px;">
+                    </div>
+                    <div class="size-info">适用于：Favicon、小图标</div>
+                </div>
+            </div>
+
+            <div class="design-details">
+                <div class="detail-item">
+                    <div class="detail-title">🎨 色彩方案</div>
+                    <div class="detail-content">
+                        深蓝色渐变背景 + 金黄色月亮
+                        <div class="color-palette">
+                            <div class="color-swatch" style="background: #1E3A8A;"></div>
+                            <div class="color-swatch" style="background: #1D4ED8;"></div>
+                            <div class="color-swatch" style="background: #FFC107;"></div>
+                            <div class="color-swatch" style="background: #FFB300;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <div class="detail-title">✨ 设计元素</div>
+                    <div class="detail-content">
+                        • 深蓝色圆形背景<br>
+                        • 金黄色圆月（中心）<br>
+                        • 装饰星星（四周）<br>
+                        • 光晕效果（层次感）
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <div class="detail-title">💡 设计寓意</div>
+                    <div class="detail-content">
+                        圆形象征完整性和全球化视野；月亮代表气象观测的核心对象；星星象征大数据和AI智能分析；蓝黄配色体现科技与温暖的平衡。
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 方案二 -->
+        <div class="design-section">
+            <h2 class="design-title">方案二：望远镜观测</h2>
+            <p class="design-concept">
+                突出"观"字概念，将望远镜元素与月亮结合，直观展现气象观测的主题。
+            </p>
+
+            <div class="logo-showcase">
+                <div class="showcase-item">
+                    <div class="showcase-label">大尺寸 (512x512)</div>
+                    <div class="logo-container bg-light">
+                        <img src="logo-design-2.svg" alt="Logo方案二" style="width: 200px; height: 200px;">
+                    </div>
+                    <div class="size-info">适用于：品牌展示、印刷品</div>
+                </div>
+
+                <div class="showcase-item">
+                    <div class="showcase-label">中尺寸 (128x128)</div>
+                    <div class="logo-container bg-dark">
+                        <img src="logo-design-2.svg" alt="Logo方案二" style="width: 80px; height: 80px;">
+                    </div>
+                    <div class="size-info">适用于：导航栏、页脚</div>
+                </div>
+
+                <div class="showcase-item">
+                    <div class="showcase-label">小尺寸 (32x32)</div>
+                    <div class="logo-container bg-gradient">
+                        <img src="logo-design-2.svg" alt="Logo方案二" style="width: 32px; height: 32px;">
+                    </div>
+                    <div class="size-info">适用于：Favicon、小图标</div>
+                </div>
+            </div>
+
+            <div class="design-details">
+                <div class="detail-item">
+                    <div class="detail-title">🎨 色彩方案</div>
+                    <div class="detail-content">
+                        深蓝色夜空 + 金黄月亮 + 青蓝望远镜
+                        <div class="color-palette">
+                            <div class="color-swatch" style="background: #0F172A;"></div>
+                            <div class="color-swatch" style="background: #F59E0B;"></div>
+                            <div class="color-swatch" style="background: #06B6D4;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <div class="detail-title">✨ 设计元素</div>
+                    <div class="detail-content">
+                        • 圆形背景（夜空）<br>
+                        • 望远镜剪影<br>
+                        • 月亮（视野中）<br>
+                        • 数据流线条
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <div class="detail-title">💡 设计寓意</div>
+                    <div class="detail-content">
+                        望远镜象征科技观测手段；月亮在视野中代表精准定位；数据流线条体现AI智能分析；整体构图展现"观测-分析-预测"的完整流程。
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 方案三 -->
+        <div class="design-section">
+            <h2 class="design-title">方案三：智能云图</h2>
+            <p class="design-concept">
+                融合云朵、月亮和数据元素，展现AI驱动的智能气象预测系统。
+            </p>
+
+            <div class="logo-showcase">
+                <div class="showcase-item">
+                    <div class="showcase-label">大尺寸 (512x512)</div>
+                    <div class="logo-container bg-light">
+                        <img src="logo-design-3.svg" alt="Logo方案三" style="width: 200px; height: 200px;">
+                    </div>
+                    <div class="size-info">适用于：品牌展示、印刷品</div>
+                </div>
+
+                <div class="showcase-item">
+                    <div class="showcase-label">中尺寸 (128x128)</div>
+                    <div class="logo-container bg-dark">
+                        <img src="logo-design-3.svg" alt="Logo方案三" style="width: 80px; height: 80px;">
+                    </div>
+                    <div class="size-info">适用于：导航栏、页脚</div>
+                </div>
+
+                <div class="showcase-item">
+                    <div class="showcase-label">小尺寸 (32x32)</div>
+                    <div class="logo-container bg-gradient">
+                        <img src="logo-design-3.svg" alt="Logo方案三" style="width: 32px; height: 32px;">
+                    </div>
+                    <div class="size-info">适用于：Favicon、小图标</div>
+                </div>
+            </div>
+
+            <div class="design-details">
+                <div class="detail-item">
+                    <div class="detail-title">🎨 色彩方案</div>
+                    <div class="detail-content">
+                        蓝色渐变 + 金黄月亮 + 青蓝数据 + 白云
+                        <div class="color-palette">
+                            <div class="color-swatch" style="background: #3B82F6;"></div>
+                            <div class="color-swatch" style="background: #FFC107;"></div>
+                            <div class="color-swatch" style="background: #06B6D4;"></div>
+                            <div class="color-swatch" style="background: #F1F5F9;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <div class="detail-title">✨ 设计元素</div>
+                    <div class="detail-content">
+                        • 圆形背景（渐变夜空）<br>
+                        • 云朵轮廓<br>
+                        • 月亮（从云中探出）<br>
+                        • 数据节点网络<br>
+                        • AI芯片纹理
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <div class="detail-title">💡 设计寓意</div>
+                    <div class="detail-content">
+                        云朵代表天气系统的多变性；月亮从云中探出象征预测准确性；数据节点网络代表AI智能分析；整体设计体现"智能感知、精准预测"。
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 推荐说明 -->
+        <div class="recommendation">
+            <div class="recommendation-title">⭐ 推荐方案</div>
+            <div class="recommendation-content">
+                <strong>方案一：星月夜空</strong> 作为主要logo，原因如下：<br>
+                1. <strong>简洁性</strong>：构图简单，易于识别和记忆<br>
+                2. <strong>一致性</strong>：与现有设计风格高度一致，符合"Clear Night"主题<br>
+                3. <strong>扩展性</strong>：可轻松适配不同应用场景（导航栏、页脚、移动端等）<br>
+                4. <strong>寓意明确</strong>：直观传达气象观测主题<br>
+                5. <strong>技术友好</strong>：SVG实现简单，性能优秀，支持无损缩放<br><br>
+                方案二和方案三可作为备选方案，或用于特定场景（如营销材料、品牌故事、技术文档等）。
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>SkyGazer AI - 智观天象 | Logo设计方案 © 2026</p>
+            <p style="margin-top: 10px; font-size: 0.9rem;">
+                文件格式：SVG (矢量) | 色彩模式：RGB (数字媒体) / CMYK (印刷) | 最小尺寸：16x16px (数字) / 10mm (印刷)
+            </p>
+        </div>
+    </div>
+</body>
+</html>
