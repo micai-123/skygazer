@@ -1,7 +1,7 @@
 package com.skygazer.weather.security;
 
 import com.skygazer.weather.entity.User;
-import com.skygazer.weather.repository.UserRepository;
+import com.skygazer.weather.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,11 +15,11 @@ import java.util.Collections;
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
     
-    private final UserRepository userRepository;
+    private final UserMapper userMapper;
     
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username)
+        User user = userMapper.findByUsername(username)
             .orElseThrow(() -> new UsernameNotFoundException("用户不存在: " + username));
         
         return new org.springframework.security.core.userdetails.User(

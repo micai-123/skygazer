@@ -13,7 +13,7 @@ import com.skygazer.weather.dto.airquality.AirQualityIndex;
 import com.skygazer.weather.dto.airquality.Pollutant;
 import com.skygazer.weather.entity.WeatherData;
 import com.skygazer.weather.exception.BusinessException;
-import com.skygazer.weather.repository.WeatherDataRepository;
+import com.skygazer.weather.mapper.WeatherDataMapper;
 import com.skygazer.weather.service.WeatherService;
 import com.skygazer.weather.util.RedisUtil;
 import com.skygazer.weather.util.CityCoordinate;
@@ -41,7 +41,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class WeatherServiceImpl implements WeatherService {
     
-    private final WeatherDataRepository weatherDataRepository;
+    private final WeatherDataMapper weatherDataMapper;
     private final RedisUtil redisUtil;
     private final WebClient webClient;
     private final ObjectMapper objectMapper;
@@ -65,7 +65,7 @@ public class WeatherServiceImpl implements WeatherService {
         }
         
         // 第二级缓存：数据库
-        WeatherData weatherData = weatherDataRepository
+        WeatherData weatherData = weatherDataMapper
             .findFirstByLocationOrderByRecordTimeDesc(location)
             .orElse(null);
         
@@ -188,7 +188,7 @@ public class WeatherServiceImpl implements WeatherService {
         // 替代实现：从数据库获取历史数据生成预报，若无数据则生成模拟数据
         log.info("从数据库获取小时预报数据，位置: {}", location);
         
-        List<WeatherData> recentData = weatherDataRepository.findRecentByLocation(location, LocalDateTime.now().minusHours(24));
+        List<WeatherData> recentData = weatherDataMapper.findRecentByLocation(location, LocalDateTime.now().minusHours(24));
         if (recentData != null && !recentData.isEmpty()) {
             log.info("从数据库获取到 {} 条历史数据，用于生成预报", recentData.size());
             return generateHourlyForecastFromHistory(location, recentData);
@@ -756,7 +756,8 @@ public class WeatherServiceImpl implements WeatherService {
         //         .dataSource("qweather")
         //         .build();
         //     
-        //     return weatherDataRepository.save(weatherData);
+        //     weatherDataMapper.insert(weatherData);
+        return weatherData;
         // } catch (Exception e) {
         //     log.error("获取天气数据失败: {}", e.getMessage(), e);
         //     return generateMockWeatherData(location);
@@ -766,7 +767,7 @@ public class WeatherServiceImpl implements WeatherService {
         // 替代实现：从数据库获取数据，若数据库无数据则生成模拟数据
         log.info("从数据库获取天气数据，位置: {}", location);
         
-        Optional<WeatherData> dbData = weatherDataRepository.findFirstByLocationOrderByRecordTimeDesc(location);
+        Optional<WeatherData> dbData = weatherDataMapper.findFirstByLocationOrderByRecordTimeDesc(location);
         if (dbData.isPresent()) {
             log.info("从数据库成功获取天气数据: {}", location);
             return dbData.get();
@@ -851,7 +852,7 @@ public class WeatherServiceImpl implements WeatherService {
         // 替代实现：从数据库获取空气质量数据，若无数据则返回默认值
         log.info("从数据库获取空气质量数据，位置: {}", location);
         
-        Optional<WeatherData> dbData = weatherDataRepository.findFirstByLocationOrderByRecordTimeDesc(location);
+        Optional<WeatherData> dbData = weatherDataMapper.findFirstByLocationOrderByRecordTimeDesc(location);
         if (dbData.isPresent()) {
             WeatherData data = dbData.get();
             if (data.getAirQualityIndex() != null) {
@@ -919,7 +920,8 @@ public class WeatherServiceImpl implements WeatherService {
             .dataSource("mock")
             .build();
         
-        return weatherDataRepository.save(weatherData);
+        weatherDataMapper.insert(weatherData);
+        return weatherData;
     }
     
     private String getLocationId(String location) {
@@ -1245,7 +1247,7 @@ public class WeatherServiceImpl implements WeatherService {
                         }
                     }
                     
-                    WeatherData weatherData = weatherDataRepository
+                    WeatherData weatherData = weatherDataMapper
                         .findFirstByLocationOrderByRecordTimeDesc(location)
                         .orElseGet(() -> fetchWeatherFromAPI(location));
                     

@@ -5,7 +5,7 @@ import com.skygazer.weather.dto.airquality.AirQualityIndex;
 import com.skygazer.weather.dto.airquality.AirQualityResponse;
 import com.skygazer.weather.dto.response.WeatherResponse;
 import com.skygazer.weather.entity.WeatherData;
-import com.skygazer.weather.repository.WeatherDataRepository;
+import com.skygazer.weather.mapper.WeatherDataMapper;
 import com.skygazer.weather.service.BatchWeatherInitService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +23,7 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 public class BatchWeatherInitServiceImpl implements BatchWeatherInitService {
     
-    private final WeatherDataRepository weatherDataRepository;
+    private final WeatherDataMapper weatherDataMapper;
     private final WebClient webClient;
     private final ObjectMapper objectMapper;
     
@@ -185,7 +185,7 @@ public class BatchWeatherInitServiceImpl implements BatchWeatherInitService {
         //             .dataSource("qweather")
         //             .build();
         //         
-        //         WeatherData savedData = weatherDataRepository.save(weatherData);
+        //         WeatherData savedData = weatherDataMapper.insert(weatherData);
         //         
         //         return convertToResponse(savedData);
         //         
@@ -354,7 +354,7 @@ public class BatchWeatherInitServiceImpl implements BatchWeatherInitService {
                 .dataSource(String.valueOf(defaultData.get("dataSource")))
                 .build();
             
-            weatherDataRepository.save(weatherData);
+            weatherDataMapper.insert(weatherData);
             log.debug("已为 {} 保存默认天气数据", cityName);
             
         } catch (Exception e) {

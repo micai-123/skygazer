@@ -6,7 +6,7 @@ import com.skygazer.weather.dto.response.HourlyForecastResponse;
 import com.skygazer.weather.dto.response.WeatherResponse;
 import com.skygazer.weather.dto.response.WeeklyForecastResponse;
 import com.skygazer.weather.entity.WeatherData;
-import com.skygazer.weather.repository.WeatherDataRepository;
+import com.skygazer.weather.mapper.WeatherDataMapper;
 import com.skygazer.weather.service.DataMigrationService;
 import com.skygazer.weather.util.RedisUtil;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +29,7 @@ public class DataMigrationServiceImpl implements DataMigrationService {
     
     private final RedisTemplate<String, Object> redisTemplate;
     private final RedisUtil redisUtil;
-    private final WeatherDataRepository weatherDataRepository;
+    private final WeatherDataMapper weatherDataMapper;
     private final ObjectMapper objectMapper;
     
     private final AtomicInteger totalRecords = new AtomicInteger(0);
@@ -82,7 +82,7 @@ public class DataMigrationServiceImpl implements DataMigrationService {
                 WeatherResponse response = redisUtil.get(key, WeatherResponse.class);
                 if (response != null) {
                     WeatherData weatherData = convertToWeatherData(response);
-                    weatherDataRepository.save(weatherData);
+                    weatherDataMapper.insert(weatherData);
                     migratedRecords.incrementAndGet();
                     successCount++;
                     log.debug("成功迁移天气数据: {}", response.getLocation());
@@ -130,7 +130,7 @@ public class DataMigrationServiceImpl implements DataMigrationService {
                         .dataSource("redis_migration_hourly")
                         .build();
                     
-                    weatherDataRepository.save(weatherData);
+                    weatherDataMapper.insert(weatherData);
                     migratedRecords.incrementAndGet();
                     successCount++;
                     log.debug("成功迁移小时预报数据: {}", location);
@@ -183,7 +183,7 @@ public class DataMigrationServiceImpl implements DataMigrationService {
                         .dataSource("redis_migration_weekly")
                         .build();
                     
-                    weatherDataRepository.save(weatherData);
+                    weatherDataMapper.insert(weatherData);
                     migratedRecords.incrementAndGet();
                     successCount++;
                     log.debug("成功迁移周预报数据: {}", location);

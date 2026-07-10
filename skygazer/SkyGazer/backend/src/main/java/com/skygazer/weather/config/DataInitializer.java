@@ -1,7 +1,7 @@
 package com.skygazer.weather.config;
 
 import com.skygazer.weather.entity.User;
-import com.skygazer.weather.repository.UserRepository;
+import com.skygazer.weather.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
@@ -13,12 +13,12 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class DataInitializer implements CommandLineRunner {
     
-    private final UserRepository userRepository;
+    private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
     
     @Override
     public void run(String... args) throws Exception {
-        if (!userRepository.existsByUsername("admin")) {
+        if (!userMapper.existsByUsername("admin")) {
             User admin = User.builder()
                 .username("admin")
                 .password(passwordEncoder.encode("admin123"))
@@ -26,11 +26,11 @@ public class DataInitializer implements CommandLineRunner {
                 .email("admin@skygazer.com")
                 .isActive(true)
                 .build();
-            userRepository.save(admin);
+            userMapper.save(admin);
             log.info("Created default admin user: admin / admin123");
         }
         
-        if (!userRepository.existsByUsername("test")) {
+        if (!userMapper.existsByUsername("test")) {
             User testUser = User.builder()
                 .username("test")
                 .password(passwordEncoder.encode("test123"))
@@ -38,7 +38,7 @@ public class DataInitializer implements CommandLineRunner {
                 .email("test@skygazer.com")
                 .isActive(true)
                 .build();
-            userRepository.save(testUser);
+            userMapper.save(testUser);
             log.info("Created default test user: test / test123");
         }
         

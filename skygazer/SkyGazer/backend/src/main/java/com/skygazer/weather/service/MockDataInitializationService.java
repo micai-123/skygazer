@@ -1,14 +1,13 @@
 package com.skygazer.weather.service;
 
 import com.skygazer.weather.entity.WeatherData;
-import com.skygazer.weather.repository.WeatherDataRepository;
+import com.skygazer.weather.mapper.WeatherDataMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
@@ -17,14 +16,14 @@ import java.util.List;
 public class MockDataInitializationService implements CommandLineRunner {
 
     private final MockWeatherDataGenerator mockWeatherDataGenerator;
-    private final WeatherDataRepository weatherDataRepository;
+    private final WeatherDataMapper weatherDataMapper;
 
     @Override
     @Transactional
     public void run(String... args) throws Exception {
         log.info("检查是否需要初始化模拟数据...");
         
-        long count = weatherDataRepository.count();
+        long count = weatherDataMapper.count();
         if (count == 0) {
             log.info("开始生成模拟天气数据...");
             generateMockData();
@@ -54,13 +53,13 @@ public class MockDataInitializationService implements CommandLineRunner {
         log.info("生成城市 {} 的模拟数据", city);
         
         WeatherData currentWeather = mockWeatherDataGenerator.generateRealTimeWeather(city);
-        weatherDataRepository.save(currentWeather);
+        weatherDataMapper.insert(currentWeather);
         
         List<WeatherData> hourlyForecasts = mockWeatherDataGenerator.generateHourlyForecast(city, 24);
-        weatherDataRepository.saveAll(hourlyForecasts);
+        weatherDataMapper.insertBatch(hourlyForecasts);
         
         List<WeatherData> weeklyForecasts = mockWeatherDataGenerator.generateWeeklyForecast(city);
-        weatherDataRepository.saveAll(weeklyForecasts);
+        weatherDataMapper.insertBatch(weeklyForecasts);
         
         log.info("城市 {} 数据生成完成: 实时数据1条, 小时预报24条, 周预报7条", city);
     }
@@ -68,7 +67,7 @@ public class MockDataInitializationService implements CommandLineRunner {
     public void refreshMockData() {
         log.info("刷新模拟数据...");
         
-        weatherDataRepository.deleteAll();
+        weatherDataMapper.deleteAll();
         
         generateMockData();
         

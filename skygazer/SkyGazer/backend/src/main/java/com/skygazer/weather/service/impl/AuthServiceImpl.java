@@ -5,7 +5,7 @@ import com.skygazer.weather.dto.request.UserRegisterRequest;
 import com.skygazer.weather.dto.response.AuthResponse;
 import com.skygazer.weather.entity.User;
 import com.skygazer.weather.exception.BusinessException;
-import com.skygazer.weather.repository.UserRepository;
+import com.skygazer.weather.mapper.UserMapper;
 import com.skygazer.weather.service.AuthService;
 import com.skygazer.weather.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
     
-    private final UserRepository userRepository;
+    private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
     
@@ -28,11 +28,11 @@ public class AuthServiceImpl implements AuthService {
     
     @Override
     public AuthResponse register(UserRegisterRequest request) {
-        if (userRepository.existsByUsername(request.getUsername())) {
+        if (userMapper.existsByUsername(request.getUsername())) {
             throw new BusinessException("用户名已存在");
         }
         
-        if (request.getEmail() != null && userRepository.existsByEmail(request.getEmail())) {
+        if (request.getEmail() != null && userMapper.existsByEmail(request.getEmail())) {
             throw new BusinessException("邮箱已被注册");
         }
         
@@ -45,7 +45,7 @@ public class AuthServiceImpl implements AuthService {
             .isActive(true)
             .build();
         
-        user = userRepository.save(user);
+        userMapper.save(user);
         
         String token = generateToken(user.getUsername());
         
@@ -54,7 +54,7 @@ public class AuthServiceImpl implements AuthService {
     
     @Override
     public AuthResponse login(UserLoginRequest request) {
-        User user = userRepository.findByUsername(request.getUsername())
+        User user = userMapper.findByUsername(request.getUsername())
             .orElseThrow(() -> new BusinessException("用户名或密码错误"));
         
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
@@ -66,7 +66,7 @@ public class AuthServiceImpl implements AuthService {
         }
         
         user.setLastLoginAt(LocalDateTime.now());
-        userRepository.save(user);
+        userMapper.save(user);
         
         String token = generateToken(user.getUsername());
         

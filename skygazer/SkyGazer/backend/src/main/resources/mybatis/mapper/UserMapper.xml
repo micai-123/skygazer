@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.skygazer.weather.mapper.UserMapper">
+
+    <sql id="Base_Column_List">
+        id, username, password, email, phone, nickname, avatar, default_location,
+        user_profile, preferred_theme, notification_enabled, created_at, updated_at, last_login_at, is_active
+    </sql>
+
+    <select id="findById" resultType="User">
+        SELECT <include refid="Base_Column_List"/>
+        FROM users
+        WHERE id = #{id}
+    </select>
+
+    <select id="findByUsername" resultType="User">
+        SELECT <include refid="Base_Column_List"/>
+        FROM users
+        WHERE username = #{username}
+    </select>
+
+    <select id="findByEmail" resultType="User">
+        SELECT <include refid="Base_Column_List"/>
+        FROM users
+        WHERE email = #{email}
+    </select>
+
+    <select id="existsByUsername" resultType="boolean">
+        SELECT EXISTS(SELECT 1 FROM users WHERE username = #{username})
+    </select>
+
+    <select id="existsByEmail" resultType="boolean">
+        SELECT EXISTS(SELECT 1 FROM users WHERE email = #{email})
+    </select>
+
+    <select id="existsById" resultType="boolean">
+        SELECT EXISTS(SELECT 1 FROM users WHERE id = #{id})
+    </select>
+
+    <insert id="save" parameterType="User" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO users (username, password, email, phone, nickname, avatar, default_location,
+            user_profile, preferred_theme, notification_enabled, last_login_at, is_active)
+        VALUES (#{username}, #{password}, #{email}, #{phone}, #{nickname}, #{avatar}, #{defaultLocation},
+            #{userProfile}, #{preferredTheme}, #{notificationEnabled}, #{lastLoginAt}, #{isActive})
+        ON DUPLICATE KEY UPDATE
+            username = VALUES(username),
+            password = VALUES(password),
+            email = VALUES(email),
+            phone = VALUES(phone),
+            nickname = VALUES(nickname),
+            avatar = VALUES(avatar),
+            default_location = VALUES(default_location),
+            user_profile = VALUES(user_profile),
+            preferred_theme = VALUES(preferred_theme),
+            notification_enabled = VALUES(notification_enabled),
+            last_login_at = VALUES(last_login_at),
+            is_active = VALUES(is_active)
+    </insert>
+
+    <delete id="deleteById">
+        DELETE FROM users WHERE id = #{id}
+    </delete>
+
+</mapper>

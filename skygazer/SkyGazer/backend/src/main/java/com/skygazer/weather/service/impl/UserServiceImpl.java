@@ -2,7 +2,7 @@ package com.skygazer.weather.service.impl;
 
 import com.skygazer.weather.entity.User;
 import com.skygazer.weather.exception.BusinessException;
-import com.skygazer.weather.repository.UserRepository;
+import com.skygazer.weather.mapper.UserMapper;
 import com.skygazer.weather.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,32 +12,33 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     
-    private final UserRepository userRepository;
+    private final UserMapper userMapper;
     
     @Override
     public User getUserById(Long id) {
-        return userRepository.findById(id)
+        return userMapper.findById(id)
             .orElseThrow(() -> new BusinessException("用户不存在"));
     }
     
     @Override
     public User getUserByUsername(String username) {
-        return userRepository.findByUsername(username)
+        return userMapper.findByUsername(username)
             .orElseThrow(() -> new BusinessException("用户不存在"));
     }
     
     @Override
     @Transactional
     public User createUser(User user) {
-        if (userRepository.existsByUsername(user.getUsername())) {
+        if (userMapper.existsByUsername(user.getUsername())) {
             throw new BusinessException("用户名已存在");
         }
         
-        if (user.getEmail() != null && userRepository.existsByEmail(user.getEmail())) {
+        if (user.getEmail() != null && userMapper.existsByEmail(user.getEmail())) {
             throw new BusinessException("邮箱已被注册");
         }
         
-        return userRepository.save(user);
+        userMapper.save(user);
+        return user;
     }
     
     @Override
@@ -53,7 +54,7 @@ public class UserServiceImpl implements UserService {
         }
         if (userUpdate.getEmail() != null) {
             if (!user.getEmail().equals(userUpdate.getEmail()) && 
-                userRepository.existsByEmail(userUpdate.getEmail())) {
+                userMapper.existsByEmail(userUpdate.getEmail())) {
                 throw new BusinessException("邮箱已被使用");
             }
             user.setEmail(userUpdate.getEmail());
@@ -65,7 +66,8 @@ public class UserServiceImpl implements UserService {
             user.setPreferredTheme(userUpdate.getPreferredTheme());
         }
         
-        return userRepository.save(user);
+        userMapper.save(user);
+        return user;
     }
     
     @Override
@@ -73,15 +75,16 @@ public class UserServiceImpl implements UserService {
     public User updateDefaultLocation(String username, String location) {
         User user = getUserByUsername(username);
         user.setDefaultLocation(location);
-        return userRepository.save(user);
+        userMapper.save(user);
+        return user;
     }
     
     @Override
     @Transactional
     public void deleteUser(Long id) {
-        if (!userRepository.existsById(id)) {
+        if (!userMapper.existsById(id)) {
             throw new BusinessException("用户不存在");
         }
-        userRepository.deleteById(id);
+        userMapper.deleteById(id);
     }
 }
