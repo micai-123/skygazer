@@ -60,3 +60,6 @@ secrets.yml
 .codebuddy/
 .workbuddy/
 
+# ===== 前端构建产物（部署到 gh-pages，不纳入主仓库）=====
+skygazer/frontend/dist/
+
