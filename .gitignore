@@ -56,3 +56,6 @@ dump.rdb
 *.local.yml
 secrets.yml
 
+# ===== IDE 工作数据（不纳入版本控制）=====
+.codebuddy/
+
