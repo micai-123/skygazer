@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>智观天象 SkyGazer - 功能模块与技术框架整合解析</title>
+<style>
+  :root {
+    --bg: #0a0e17;
+    --card-bg: #111827;
+    --border: #1e293b;
+    --text: #e2e8f0;
+    --text-secondary: #94a3b8;
+    --accent: #38bdf8;
+    --accent2: #818cf8;
+    --accent3: #34d399;
+    --accent4: #f59e0b;
+    --accent5: #f472b6;
+    --accent6: #a78bfa;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    line-height: 1.7;
+    padding: 2rem;
+  }
+  .container { max-width: 1400px; margin: 0 auto; }
+  
+  header {
+    text-align: center;
+    padding: 3rem 1rem;
+    background: linear-gradient(135deg, rgba(56,189,248,0.1), rgba(129,140,248,0.1));
+    border-radius: 16px;
+    margin-bottom: 3rem;
+    border: 1px solid var(--border);
+  }
+  header h1 {
+    font-size: 2.5rem;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+  }
+  header .subtitle {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+  }
+
+  .nav-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 3rem;
+  }
+  .nav-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-align: center;
+  }
+  .nav-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(56,189,248,0.15);
+  }
+  .nav-card .icon { font-size: 2rem; margin-bottom: 0.5rem; }
+  .nav-card .label { font-weight: 600; font-size: 0.95rem; }
+
+  section {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+  }
+  h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+  h2 .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: inline-block;
+  }
+  h3 {
+    font-size: 1.15rem;
+    margin: 1.5rem 0 0.75rem;
+    color: var(--accent);
+  }
+  h4 {
+    font-size: 1rem;
+    margin: 1rem 0 0.5rem;
+    color: var(--accent4);
+  }
+
+  .arch-diagram {
+    background: #0d1117;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 2rem;
+    overflow-x: auto;
+    margin: 1rem 0;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 0.85rem;
+    line-height: 1.8;
+    white-space: pre;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    font-size: 0.9rem;
+  }
+  th, td {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  th {
+    background: rgba(56,189,248,0.08);
+    color: var(--accent);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  tr:hover { background: rgba(255,255,255,0.02); }
+
+  .badge {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: 6px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    margin: 0 0.2rem;
+  }
+  .badge-spring { background: rgba(56,189,248,0.2); color: #38bdf8; }
+  .badge-vue { background: rgba(52,211,153,0.2); color: #34d399; }
+  .badge-py { background: rgba(245,158,11,0.2); color: #f59e0b; }
+  .badge-redis { background: rgba(244,114,182,0.2); color: #f472b6; }
+  .badge-mysql { background: rgba(167,139,250,0.2); color: #a78bfa; }
+  .badge-ai { background: rgba(239,68,68,0.2); color: #f87171; }
+  .badge-mw { background: rgba(250,204,21,0.2); color: #facc15; }
+  .badge-security { background: rgba(129,140,248,0.2); color: #818cf8; }
+
+  .flow-box {
+    background: #0d1117;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 8px;
+    padding: 1.2rem 1.5rem;
+    margin: 1rem 0;
+    font-size: 0.9rem;
+  }
+  .flow-box.warn { border-left-color: var(--accent4); }
+  .flow-box.success { border-left-color: var(--accent3); }
+  .flow-box.pink { border-left-color: var(--accent5); }
+
+  .file-ref {
+    font-family: 'Consolas', monospace;
+    background: rgba(56,189,248,0.1);
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.82rem;
+    color: var(--accent);
+  }
+
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.2rem;
+  }
+  .grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+  }
+  @media (max-width: 900px) {
+    .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+  }
+
+  .card {
+    background: #0d1117;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.2rem;
+  }
+  .card h4 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+  }
+  .card ul {
+    list-style: none;
+    padding: 0;
+  }
+  .card li {
+    padding: 0.3rem 0;
+    color: var(--text-secondary);
+    font-size: 0.88rem;
+  }
+  .card li::before {
+    content: "▸ ";
+    color: var(--accent);
+  }
+
+  .process-step {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    padding: 0.75rem 0;
+    border-bottom: 1px dashed var(--border);
+  }
+  .process-step:last-child { border-bottom: none; }
+  .step-num {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+  }
+  .step-content { flex: 1; }
+  .step-content strong { display: block; margin-bottom: 0.2rem; }
+  .step-content .detail { color: var(--text-secondary); font-size: 0.85rem; }
+
+  .tech-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0.5rem 0;
+  }
+  .tech-tag {
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+
+  hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+  code { 
+    background: rgba(255,255,255,0.06); 
+    padding: 0.15rem 0.35rem; 
+    border-radius: 4px; 
+    font-size: 0.85em;
+  }
+
+  .toc { margin: 1rem 0; }
+  .toc a { color: var(--accent); text-decoration: none; }
+  .toc a:hover { text-decoration: underline; }
+  .toc li { margin: 0.3rem 0; color: var(--text-secondary); }
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- ===== HEADER ===== -->
+<header>
+  <h1>智观天象 SkyGazer</h1>
+  <p class="subtitle">功能模块 · 技术框架 · 代码文件 · 流程解析 — 完整整合文档</p>
+  <p style="color: var(--text-secondary); margin-top: 0.5rem; font-size: 0.9rem;">
+    智能天气决策系统 | Spring Boot 3.2.5 + Vue 3 + Flask + DeepSeek AI
+  </p>
+</header>
+
+<!-- ===== TOC ===== -->
+<nav class="nav-grid">
+  <a href="#arch" style="text-decoration:none;color:inherit"><div class="nav-card"><div class="icon">🏗️</div><div class="label">系统架构</div></div></a>
+  <a href="#modules" style="text-decoration:none;color:inherit"><div class="nav-card"><div class="icon">📦</div><div class="label">功能模块</div></div></a>
+  <a href="#tech" style="text-decoration:none;color:inherit"><div class="nav-card"><div class="icon">🔧</div><div class="label">技术框架</div></div></a>
+  <a href="#ai-agent" style="text-decoration:none;color:inherit"><div class="nav-card"><div class="icon">🤖</div><div class="label">AI 智能体</div></div></a>
+  <a href="#flows" style="text-decoration:none;color:inherit"><div class="nav-card"><div class="icon">🔄</div><div class="label">核心流程</div></div></a>
+  <a href="#files" style="text-decoration:none;color:inherit"><div class="nav-card"><div class="icon">📁</div><div class="label">代码文件</div></div></a>
+</nav>
+
+<!-- ===== 1. SYSTEM ARCHITECTURE ===== -->
+<section id="arch">
+  <h2><span class="dot"></span>一、系统架构全景图</h2>
+
+  <div class="arch-diagram">
+┌──────────────────────────────────────────────────────────────────────────┐
+│                          用户浏览器 (localhost:3000)                       │
+│                     Vue 3 + Vite | Glassmorphism UI                       │
+└───────────────────────────────┬──────────────────────────────────────────┘
+                                │ HTTP/JSON (Vite Proxy /api → 8080)
+                                ▼
+┌──────────────────────────────────────────────────────────────────────────┐
+│                    Spring Boot 3.2.5 (WAR, Tomcat)                        │
+│                         localhost:8080/api                                │
+│  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────────┐  │
+│  │Controller│ │ Service  │ │  RAG 管线 │ │  Tool    │ │  Security    │  │
+│  │ 11 控制器 │ │ 15 服务  │ │ 向量检索  │ │  调用    │ │  JWT+限流    │  │
+│  └──────────┘ └──────────┘ └──────────┘ └──────────┘ └──────────────┘  │
+└───┬───────────────┬──────────────┬──────────────┬────────────────────────┘
+    │               │              │              │
+    ▼               ▼              ▼              ▼
+┌────────┐   ┌──────────┐  ┌─────────────────┐  ┌───────────────────┐
+│ MySQL 8│   │ Redis 7  │  │ DeepSeek API    │  │ Flask + PyTorch   │
+│ :3306  │   │  :6379   │  │ (OpenAI兼容)    │  │ ResNet-18 :5000   │
+│持久化  │   │会话记忆  │  │ deepseek-chat   │  │ 天气图像四分类    │
+│业务数据│   │向量库    │  │ AI智能对话      │  │ sunny/rainy/...   │
+└────────┘   └──────────┘  └─────────────────┘  └───────────────────┘
+  </div>
+
+  <div class="grid-2" style="margin-top:1.5rem;">
+    <div class="card">
+      <h4>前端技术栈</h4>
+      <div class="tech-stack">
+        <span class="tech-tag badge-vue">Vue 3.4</span>
+        <span class="tech-tag badge-vue">Vite 5</span>
+        <span class="tech-tag badge-vue">Pinia 2</span>
+        <span class="tech-tag badge-vue">Vue Router 4</span>
+        <span class="tech-tag badge-vue">ECharts 5</span>
+        <span class="tech-tag badge-vue">Axios</span>
+      </div>
+      <p style="margin-top:0.5rem; color:var(--text-secondary); font-size:0.85rem;">
+        7个主页面 | Glassmorphism毛玻璃风格 | Sora字体 | 响应式设计
+      </p>
+    </div>
+    <div class="card">
+      <h4>后端技术栈</h4>
+      <div class="tech-stack">
+        <span class="tech-tag badge-spring">Spring Boot 3.2.5</span>
+        <span class="tech-tag badge-spring">Spring AI 1.0.0-M6</span>
+        <span class="tech-tag badge-spring">MyBatis 3</span>
+        <span class="tech-tag badge-spring">Spring Security</span>
+        <span class="tech-tag badge-spring">Spring WebFlux</span>
+        <span class="tech-tag badge-spring">JWT (jjwt 0.12.5)</span>
+      </div>
+      <p style="margin-top:0.5rem; color:var(--text-secondary); font-size:0.85rem;">
+        Java 17 | Maven | WAR部署 | MapStruct + Lombok
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 2. FUNCTIONAL MODULES ===== -->
+<section id="modules">
+  <h2><span class="dot"></span>二、功能模块与代码文件映射</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width:12%">功能模块</th>
+        <th style="width:30%">功能描述</th>
+        <th style="width:30%">后端核心代码文件</th>
+        <th style="width:28%">前端核心代码文件</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- 模块1: 天气数据 -->
+      <tr>
+        <td><strong>🏠 实时天气</strong></td>
+        <td>
+          当前天气、逐小时预报(72h)、周预报(7天)、空气质量、天气数据分析
+          <br><span class="badge badge-redis">Redis缓存</span> <span class="badge badge-mysql">MySQL持久化</span>
+        </td>
+        <td>
+          <span class="file-ref">controller/WeatherController.java</span><br>
+          <span class="file-ref">service/WeatherService.java</span><br>
+          <span class="file-ref">service/impl/WeatherServiceImpl.java</span><br>
+          <span class="file-ref">mapper/WeatherDataMapper.java</span><br>
+          <span class="file-ref">entity/WeatherData.java</span>
+        </td>
+        <td>
+          <span class="file-ref">api/index.js</span> (weatherApi)<br>
+          <span class="file-ref">views/HomeView.vue</span><br>
+          <span class="file-ref">views/AnalysisView.vue</span><br>
+          <span class="file-ref">stores/weather.js</span>
+        </td>
+      </tr>
+
+      <!-- 模块2: 天气地图 -->
+      <tr>
+        <td><strong>🗺️ 天气地图</strong></td>
+        <td>
+          7种图层(温度/降水/风/气压/云/空气质量/能见度)、时间轴动画、行政区天气、GeoJSON边界数据
+          <br><span class="badge badge-mw">ECharts地图</span>
+        </td>
+        <td>
+          <span class="file-ref">controller/WeatherMapController.java</span><br>
+          <span class="file-ref">service/WeatherMapService.java</span><br>
+          <span class="file-ref">service/impl/WeatherMapServiceImpl.java</span>
+        </td>
+        <td>
+          <span class="file-ref">api/index.js</span> (mapApi)<br>
+          <span class="file-ref">views/MapView.vue</span><br>
+          <span class="file-ref">components/WeatherMap.vue</span>
+        </td>
+      </tr>
+
+      <!-- 模块3: 生活指数 -->
+      <tr>
+        <td><strong>🎯 生活指数</strong></td>
+        <td>
+          多类生活健康指数(穿衣/运动/洗车/紫外线/舒适度)、自定义指数组合
+          <br>基于天气参数+公式计算
+        </td>
+        <td>
+          <span class="file-ref">controller/LifeIndexController.java</span><br>
+          <span class="file-ref">service/LifeIndexService.java</span><br>
+          <span class="file-ref">service/impl/LifeIndexServiceImpl.java</span>
+          <span class="file-ref">tool/LifeIndexTools.java</span> (Agent工具)
+        </td>
+        <td>
+          <span class="file-ref">api/index.js</span> (lifestyleApi)<br>
+          <span class="file-ref">views/LifestyleView.vue</span>
+        </td>
+      </tr>
+
+      <!-- 模块4: 气象预警 -->
+      <tr>
+        <td><strong>⚠️ 气象预警</strong></td>
+        <td>
+          预警CRUD、智能分析、按类型筛选(暴雨/台风/高温等)、解除预警
+        </td>
+        <td>
+          <span class="file-ref">controller/WarningController.java</span><br>
+          <span class="file-ref">service/WarningService.java</span><br>
+          <span class="file-ref">service/impl/WarningServiceImpl.java</span>
+        </td>
+        <td>
+          <span class="file-ref">api/index.js</span> (warningApi)<br>
+          <span class="file-ref">components/WarningPanel.vue</span>
+        </td>
+      </tr>
+
+      <!-- 模块5: AI智能体 -->
+      <tr>
+        <td><strong>🤖 天象智囊 AI</strong></td>
+        <td>
+          多轮会话记忆(RAG+工具+记忆)、流式SSE问答、天气分析、活动建议、气象决策
+          <br><span class="badge badge-ai">Spring AI</span> <span class="badge badge-redis">Redis会话记忆</span> <span class="badge badge-ai">DeepSeek</span>
+        </td>
+        <td>
+          <span class="file-ref">controller/AgentController.java</span><br>
+          <span class="file-ref">controller/AiController.java</span><br>
+          <span class="file-ref">service/AiAgentService.java</span><br>
+          <span class="file-ref">service/impl/AiAgentServiceImpl.java</span><br>
+          <span class="file-ref">service/AliyunAiService.java</span><br>
+          <span class="file-ref">rag/KnowledgeIngestionService.java</span><br>
+          <span class="file-ref">rag/RedisKnowledgeVectorStore.java</span><br>
+          <span class="file-ref">tool/WeatherTools.java</span><br>
+          <span class="file-ref">tool/LifeIndexTools.java</span><br>
+          <span class="file-ref">tool/ExternalWeatherTools.java</span>
+        </td>
+        <td>
+          <span class="file-ref">api/index.js</span> (agentApi, aiApi)<br>
+          <span class="file-ref">views/AIAssistantView.vue</span><br>
+          <span class="file-ref">components/ChatPanel.vue</span>
+        </td>
+      </tr>
+
+      <!-- 模块6: 天气图像识别 -->
+      <tr>
+        <td><strong>📸 天气图像识别</strong></td>
+        <td>
+          上传天气图片 → Python ResNet-18 四分类识别(cloudy/rainy/snowy/sunny) → 返回类别+置信度
+          <br><span class="badge badge-py">Python Flask</span> <span class="badge badge-py">PyTorch</span>
+        </td>
+        <td>
+          <span class="file-ref">controller/WeatherImageController.java</span><br>
+          <span class="file-ref">service/WeatherImageService.java</span><br>
+          <span class="file-ref">service/impl/WeatherImageServiceImpl.java</span>
+        </td>
+        <td>
+          <span class="file-ref">api/index.js</span> (weatherImageApi)<br>
+          <span class="file-ref">views/AIAssistantView.vue</span> (图片上传区)
+        </td>
+      </tr>
+
+      <!-- 模块7: 用户系统 -->
+      <tr>
+        <td><strong>👤 用户系统</strong></td>
+        <td>
+          注册、登录(JWT)、个人资料管理、默认位置设置、主题偏好、通知开关
+          <br><span class="badge badge-security">BCrypt</span> <span class="badge badge-security">JWT</span>
+        </td>
+        <td>
+          <span class="file-ref">controller/UserController.java</span><br>
+          <span class="file-ref">service/AuthService.java</span><br>
+          <span class="file-ref">service/UserService.java</span><br>
+          <span class="file-ref">entity/User.java</span><br>
+          <span class="file-ref">mapper/UserMapper.java</span><br>
+          <span class="file-ref">security/JwtAuthenticationFilter.java</span>
+          <span class="file-ref">security/JwtTokenProvider.java</span>
+        </td>
+        <td>
+          <span class="file-ref">api/index.js</span> (authApi)<br>
+          <span class="file-ref">views/ProfileView.vue</span><br>
+          <span class="file-ref">views/SettingsView.vue</span><br>
+          <span class="file-ref">stores/auth.js</span><br>
+          <span class="file-ref">components/AuthModal.vue</span>
+        </td>
+      </tr>
+
+      <!-- 模块8: 数据管理 -->
+      <tr>
+        <td><strong>🗄️ 数据管理</strong></td>
+        <td>
+          Redis→MySQL数据迁移、批量天气初始化、模拟数据生成
+        </td>
+        <td>
+          <span class="file-ref">controller/DataMigrationController.java</span><br>
+          <span class="file-ref">controller/BatchWeatherInitController.java</span><br>
+          <span class="file-ref">controller/MockDataController.java</span><br>
+          <span class="file-ref">service/DataMigrationService.java</span><br>
+          <span class="file-ref">service/BatchWeatherInitService.java</span>
+          <span class="file-ref">service/MockWeatherDataGenerator.java</span>
+        </td>
+        <td>
+          — (后台管理功能，无对应前端页面)
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ===== 3. TECHNOLOGY FRAMEWORK ===== -->
+<section id="tech">
+  <h2><span class="dot"></span>三、技术框架详细映射</h2>
+
+  <div class="grid-3">
+    <!-- 后端框架 -->
+    <div class="card">
+      <h4>🟦 后端核心框架</h4>
+      <table style="font-size:0.82rem;">
+        <tr><td>Spring Boot 3.2.5</td><td>应用框架，WAR部署</td></tr>
+        <tr><td>Spring MVC</td><td>REST API (11个Controller)</td></tr>
+        <tr><td>MyBatis 3.0.3</td><td>持久层，替代JPA</td></tr>
+        <tr><td>Spring Security</td><td>认证鉴权框架</td></tr>
+        <tr><td>Spring Data Redis</td><td>Redis集成(Lettuce)</td></tr>
+        <tr><td>Spring WebFlux</td><td>WebClient调用外部API</td></tr>
+        <tr><td>Spring Validation</td><td>请求参数校验</td></tr>
+      </table>
+    </div>
+
+    <!-- AI框架 -->
+    <div class="card">
+      <h4>🤖 AI 与智能体框架</h4>
+      <table style="font-size:0.82rem;">
+        <tr><td>Spring AI 1.0.0-M6</td><td>AI框架(ChatClient+Tool+Embedding)</td></tr>
+        <tr><td>DeepSeek API</td><td>LLM (deepseek-chat)</td></tr>
+        <tr><td>OpenAI 兼容协议</td><td>Chat Completion API</td></tr>
+        <tr><td>EmbeddingModel</td><td>文本向量化接口</td></tr>
+        <tr><td>ToolCallingManager</td><td>工具调用管理器</td></tr>
+        <tr><td>自研 RAG 管线</td><td>向量存储+检索(Redis)</td></tr>
+        <tr><td>SSE (Server-Sent Events)</td><td>流式响应协议</td></tr>
+      </table>
+    </div>
+
+    <!-- 数据与中间件 -->
+    <div class="card">
+      <h4>💾 数据与中间件</h4>
+      <table style="font-size:0.82rem;">
+        <tr><td>MySQL 8</td><td>业务数据持久化</td></tr>
+        <tr><td>Redis 7</td><td>缓存/会话/向量库</td></tr>
+        <tr><td>HikariCP</td><td>数据库连接池</td></tr>
+        <tr><td>Lettuce</td><td>Redis客户端</td></tr>
+        <tr><td>Jackson</td><td>JSON序列化</td></tr>
+        <tr><td>JWT (jjwt 0.12.5)</td><td>无状态令牌认证</td></tr>
+        <tr><td>BCrypt</td><td>密码哈希</td></tr>
+      </table>
+    </div>
+
+    <!-- 前端框架 -->
+    <div class="card">
+      <h4>🟢 前端框架</h4>
+      <table style="font-size:0.82rem;">
+        <tr><td>Vue 3.4 (Composition API)</td><td>核心框架</td></tr>
+        <tr><td>Vite 5</td><td>构建工具+HMR热更新</td></tr>
+        <tr><td>Pinia 2</td><td>状态管理</td></tr>
+        <tr><td>Vue Router 4</td><td>前端路由</td></tr>
+        <tr><td>Axios</td><td>HTTP请求客户端</td></tr>
+        <tr><td>ECharts 5</td><td>数据可视化</td></tr>
+        <tr><td>@fontsource/sora</td><td>UI字体</td></tr>
+      </table>
+    </div>
+
+    <!-- 工具库 -->
+    <div class="card">
+      <h4>🔩 工具与辅助</h4>
+      <table style="font-size:0.82rem;">
+        <tr><td>Lombok 1.18.34</td><td>Java代码简化</td></tr>
+        <tr><td>MapStruct 1.5.5</td><td>对象映射转换</td></tr>
+        <tr><td>Swagger Annotations 2.2.8</td><td>API文档注解</td></tr>
+        <tr><td>Maven 3.6+</td><td>构建管理</td></tr>
+        <tr><td>Node.js 18+</td><td>前端运行时</td></tr>
+        <tr><td>Python 3.8+</td><td>模型服务运行时</td></tr>
+      </table>
+    </div>
+
+    <!-- 模型服务 -->
+    <div class="card">
+      <h4>🟡 模型服务 (weather-model-api)</h4>
+      <table style="font-size:0.82rem;">
+        <tr><td>Flask</td><td>Python Web框架</td></tr>
+        <tr><td>PyTorch</td><td>深度学习框架</td></tr>
+        <tr><td>torchvision</td><td>ResNet-18 预训练模型</td></tr>
+        <tr><td>OpenCV</td><td>图像预处理</td></tr>
+        <tr><td>NumPy</td><td>数值计算</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <hr>
+
+  <h3>配置与关键文件一览</h3>
+  <div class="grid-2">
+    <div class="card">
+      <h4>后端配置文件</h4>
+      <ul>
+        <li><span class="file-ref">pom.xml</span> — Maven依赖管理，Spring AI 1.0.0-M6</li>
+        <li><span class="file-ref">application.yml</span> — 主配置：MySQL/Redis/DeepSeek API/JWT</li>
+        <li><span class="file-ref">application-dev.yml</span> — 开发环境：vector-store-enabled: false</li>
+        <li><span class="file-ref">application-prod.yml</span> — 生产环境：全部通过环境变量注入</li>
+        <li><span class="file-ref">application-h2.yml</span> — H2内存数据库(测试用)</li>
+        <li><span class="file-ref">db/migration/V1__Init_Schema.sql</span> — 建库建表DDL</li>
+        <li><span class="file-ref">db/migration/V2__Add_Vector_Knowledge.sql</span> — 向量库表</li>
+        <li><span class="file-ref">knowledge/*.md</span> — RAG知识库Markdown文档</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>前端配置文件</h4>
+      <ul>
+        <li><span class="file-ref">package.json</span> — 依赖管理与脚本</li>
+        <li><span class="file-ref">vite.config.js</span> — 端口3000，/api代理到8080</li>
+        <li><span class="file-ref">index.html</span> — HTML入口</li>
+        <li><span class="file-ref">src/main.js</span> — Vue应用入口(Pinia+Router)</li>
+        <li><span class="file-ref">src/App.vue</span> — 根组件(导航+路由+页脚)</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 4. AI AGENT ===== -->
+<section id="ai-agent">
+  <h2><span class="dot"></span>四、AI 智能体「天象智囊」深度解析</h2>
+
+  <h3>4.1 智能体架构全景</h3>
+  <div class="arch-diagram">
+                    ┌────────────────────────────┐
+  POST /agent/query │       AgentController       │
+  POST /agent/stream│   ┌──────────────────────┐ │
+  ══════════════════▶  │  AiAgentServiceImpl   │ │
+                    │  │                       │ │
+                    │  │  ┌─────────────────┐  │ │
+                    │  │  │ 1. 多轮记忆     │  │ │
+                    │  │  │  Redis:          │  │ │
+                    │  │  │  agent:memory:   │  │ │
+                    │  │  │  {sessionId}     │  │ │
+                    │  │  └────────┬────────┘  │ │
+                    │  │           │            │ │
+                    │  │  ┌────────▼────────┐  │ │
+                    │  │  │ 2. RAG 检索     │  │ │
+                    │  │  │  EmbeddingModel │  │ │
+                    │  │  │  → 向量化查询   │  │ │
+                    │  │  │  → 余弦相似度   │  │ │
+                    │  │  │  → TopK=5       │  │ │
+                    │  │  └────────┬────────┘  │ │
+                    │  │           │            │ │
+                    │  │  ┌────────▼────────┐  │ │
+                    │  │  │ 3. 构建提示词   │  │ │
+                    │  │  │  系统身份+RAG   │  │ │
+                    │  │  │  知识+用户问题  │  │ │
+                    │  │  └────────┬────────┘  │ │
+                    │  │           │            │ │
+                    │  │  ┌────────▼────────┐  │ │
+                    │  │  │ 4. 工具调用循环 │  │ │
+                    │  │  │  最多5轮        │  │ │
+                    │  │  │  - WeatherTools │  │ │
+                    │  │  │  - LifeIndexTools│ │ │
+                    │  │  │  - ExtWeather  │  │ │
+                    │  │  └────────┬────────┘  │ │
+                    │  │           │            │ │
+                    │  │  ┌────────▼────────┐  │ │
+                    │  │  │ 5. DeepSeek LLM│  │ │
+                    │  │  │  deepseek-chat  │  │ │
+                    │  │  │  temperature=0.8│  │ │
+                    │  │  └────────┬────────┘  │ │
+                    │  │           │            │ │
+                    │  │  ┌────────▼────────┐  │ │
+                    │  │  │ 6. 保存记忆     │  │ │
+                    │  │  │  响应写入Redis  │  │ │
+                    │  │  │  窗口截断20条   │  │ │
+                    │  │  └─────────────────┘  │ │
+                    │  └──────────────────────┘ │
+                    └────────────────────────────┘
+  </div>
+
+  <h3>4.2 RAG 检索增强生成管线</h3>
+  <div class="grid-2">
+    <div>
+      <h4>📥 入库管线 (Ingestion Pipeline)</h4>
+      <div class="flow-box">
+        <div class="process-step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <strong>文档读取</strong>
+            <div class="detail"><span class="file-ref">KnowledgeIngestionService.java</span> 读取 <span class="file-ref">classpath:knowledge/*.md</span> 气象知识Markdown文件</div>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <strong>分块策略</strong>
+            <div class="detail">按段落聚合，每块最大800字符（CHUNK_MAX_CHARS=800），保证段落不被切断。从文件名提取 category 分类</div>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <strong>向量化 (Embedding)</strong>
+            <div class="detail">调用 Spring AI EmbeddingModel（阿里云 text-embedding-v2），生成固定维度向量</div>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <strong>向量存储</strong>
+            <div class="detail"><span class="file-ref">RedisKnowledgeVectorStore.java</span> 自研存储，Redis Hash结构：<code>rag:doc:{id}</code> 存储文档+向量JSON，<code>rag:docs:all</code> 索引集合</div>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="step-num">5</div>
+          <div class="step-content">
+            <strong>启动触发</strong>
+            <div class="detail"><code>@EventListener(ContextRefreshedEvent)</code> 应用启动时若向量库为空自动入库；<code>POST /agent/knowledge/refresh</code> 手动重建</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <h4>🔍 检索流程 (Retrieval Flow)</h4>
+      <div class="flow-box warn">
+        <div class="process-step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <strong>查询向量化</strong>
+            <div class="detail">用户问题 → EmbeddingModel.embed(query) → 查询向量</div>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <strong>暴力余弦相似度</strong>
+            <div class="detail">遍历所有文档向量，计算 cosine similarity。配置：ragTopK=5, ragSimilarityThreshold=0.55</div>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <strong>结果过滤排序</strong>
+            <div class="detail">阈值过滤 → 按score降序 → 取TopK，失败时降级为空列表</div>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <strong>拼入提示词</strong>
+            <div class="detail"><span class="file-ref">buildSystemPrompt()</span> 将RAG检索知识片段拼接到系统身份提示词之后，作为上下文增强</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="flow-box success" style="margin-top:1rem;">
+    <strong>⚠️ 当前状态：</strong>已切换至 DeepSeek API，该平台不提供 Embedding 接口。
+    <span class="file-ref">application-dev.yml</span> 中 <code>vector-store-enabled: false</code> 已关闭RAG检索。
+    会话记忆和工具调用功能不受影响，正常使用。
+  </div>
+
+  <h3>4.3 Tool Calling 工具调用机制</h3>
+  <table>
+    <thead>
+      <tr><th>工具类</th><th>文件位置</th><th>@Tool 方法</th><th>数据来源</th><th>功能</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>WeatherTools</strong></td>
+        <td><span class="file-ref">tool/WeatherTools.java</span></td>
+        <td>
+          <code>getCurrentWeather(location)</code><br>
+          <code>getRecentWeather(location, days)</code>
+        </td>
+        <td>WeatherDataMapper (MySQL)</td>
+        <td>查询数据库最新实况天气 + 最近N天历史</td>
+      </tr>
+      <tr>
+        <td><strong>LifeIndexTools</strong></td>
+        <td><span class="file-ref">tool/LifeIndexTools.java</span></td>
+        <td>
+          <code>getLifeIndex(location)</code><br>
+          <code>getWeatherAlert(location)</code>
+        </td>
+        <td>LifeIndexService + WarningService + GeoLookupService</td>
+        <td>生活指数计算 + 气象预警查询</td>
+      </tr>
+      <tr>
+        <td><strong>ExternalWeatherTools</strong></td>
+        <td><span class="file-ref">tool/ExternalWeatherTools.java</span></td>
+        <td>
+          <code>getExternalForecast(location)</code>
+        </td>
+        <td>MetaWeatherClient (外部API)</td>
+        <td>获取MetaWeather多日预报数据</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p style="margin-top:0.5rem;"><strong>工具调用循环关键代码：</strong><span class="file-ref">AiAgentServiceImpl.resolveWithTools()</span> — 关闭模型内部工具执行，采用显式循环（最多5轮）自行驱动工具调用，避免Spring AI M6流式空参崩溃。每轮将工具调用过程以SSE <code>step</code> 事件实时推送给前端。</p>
+</section>
+
+<!-- ===== 5. CORE PROCESS FLOWS ===== -->
+<section id="flows">
+  <h2><span class="dot"></span>五、核心业务流程解析</h2>
+
+  <h3>5.1 天气数据请求 → 响应完整链路</h3>
+  <div class="flow-box">
+    <div class="process-step">
+      <div class="step-num">①</div>
+      <div class="step-content">
+        <strong>前端发起请求</strong>
+        <div class="detail"><span class="file-ref">views/HomeView.vue</span> → <span class="file-ref">api/index.js</span> weatherApi.getCurrent('北京')
+        <br>GET /api/weather/current?location=北京 → Vite Proxy → localhost:8080</div>
+      </div>
+    </div>
+    <div class="process-step">
+      <div class="step-num">②</div>
+      <div class="step-content">
+        <strong>安全过滤器链</strong>
+        <div class="detail"><span class="file-ref">RateLimitFilter</span> (IP限流120次/分钟) → <span class="file-ref">JwtAuthenticationFilter</span> (天气接口在白名单免鉴权) → Controller</div>
+      </div>
+    </div>
+    <div class="process-step">
+      <div class="step-num">③</div>
+      <div class="step-content">
+        <strong>Service层二级缓存策略</strong>
+        <div class="detail"><span class="file-ref">WeatherServiceImpl.getCurrentWeather()</span>:
+        <br>Step 1: 查 Redis 缓存 → 命中则直接返回
+        <br>Step 2: 未命中 → MetaWeatherClient.fetchForecast() 调用外部API
+        <br>Step 3: 外部API成功 → 构建WeatherData → 入库MySQL + 写Redis(TTL)
+        <br>Step 4: 外部API失败 → 回退查询MySQL历史数据
+        <br>Step 5: 历史数据也不存在 → generateMockWeatherData() 生成模拟数据</div>
+      </div>
+    </div>
+    <div class="process-step">
+      <div class="step-num">④</div>
+      <div class="step-content">
+        <strong>小时预报生成算法</strong>
+        <div class="detail">优先从 MetaWeather 日数据用正弦日变化曲线推演72小时逐小时数据；否则从历史数据或模拟生成</div>
+      </div>
+    </div>
+    <div class="process-step">
+      <div class="step-num">⑤</div>
+      <div class="step-content">
+        <strong>周预报生成算法</strong>
+        <div class="detail">MetaWeather 真实多日数据 + 超出天数用 <code>simulateDailyData()</code> 补齐至7天</div>
+      </div>
+    </div>
+    <div class="process-step">
+      <div class="step-num">⑥</div>
+      <div class="step-content">
+        <strong>响应返回前端</strong>
+        <div class="detail"><span class="file-ref">ApiResponse</span> 统一包装 {code:200, data:{...}, message:"success"} → 前端 Axios 响应拦截器自动解包 → Pinia Store 更新 → 视图响应式渲染</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>5.2 JWT 认证流程</h3>
+  <div class="flow-box pink">
+    <div class="process-step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <strong>注册/登录</strong>
+        <div class="detail">POST /api/user/login → <span class="file-ref">AuthService.authenticate()</span> → BCrypt密码校验 → 生成JWT(24h有效期) → 返回 {token, user}</div>
+      </div>
+    </div>
+    <div class="process-step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <strong>前端存储</strong>
+        <div class="detail"><span class="file-ref">stores/auth.js</span> 将 token 存入 localStorage，Axios 拦截器自动为每个请求添加 <code>Authorization: Bearer &lt;token&gt;</code></div>
+      </div>
+    </div>
+    <div class="process-step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <strong>请求拦截</strong>
+        <div class="detail"><span class="file-ref">JwtAuthenticationFilter</span> 从 Header 提取token → 解析用户名 → 加载UserDetails → 校验token签名和过期 → 设置SecurityContext</div>
+      </div>
+    </div>
+    <div class="process-step">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <strong>路由守卫</strong>
+        <div class="detail">前端 <span class="file-ref">router/index.js</span> beforeEnter 检查 <code>meta.requiresAuth</code> → 未登录弹窗提示 → 暂存pendingAction回调</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>5.3 AI 智能体流式对话完整链路</h3>
+  <div class="flow-box">
+    <div class="process-step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <strong>用户输入</strong>
+        <div class="detail"><span class="file-ref">AIAssistantView.vue</span> 输入"北京今天适合跑步吗？" + conversationId="demo-001"</div>
+      </div>
+    </div>
+    <div class="process-step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <strong>POST /agent/query/stream</strong>
+        <div class="detail"><span class="file-ref">AgentController.streamQuery()</span> → <span class="file-ref">AiAgentServiceImpl.streamAsk()</span></div>
+      </div>
+    </div>
+    <div class="process-step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <strong>加载会话记忆</strong>
+        <div class="detail">Redis <code>GET agent:memory:demo-001</code> → 反序列化 ChatMessageRecord 列表 → 窗口截断(最多20条)</div>
+      </div>
+    </div>
+    <div class="process-step">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <strong>RAG 检索（可选，当前关闭）</strong>
+        <div class="detail">查询向量化 → RedisKnowledgeVectorStore.search() → 余弦相似度Top5 → 拼入系统提示词</div>
+      </div>
+    </div>
+    <div class="process-step">
+      <div class="step-num">5</div>
+      <div class="step-content">
+        <strong>构建系统提示词</strong>
+        <div class="detail">"你是智观天象的AI助手天象智囊…" + RAG知识片段 + 使用工具获取实时天气</div>
+      </div>
+    </div>
+    <div class="process-step">
+      <div class="step-num">6</div>
+      <div class="step-content">
+        <strong>工具调用循环 (resolveWithTools)</strong>
+        <div class="detail">第1轮: DeepSeek决定调用 getCurrentWeather("北京") → WeatherTools执行 → 返回天气数据
+        <br>第2轮: DeepSeek决定调用 getLifeIndex("北京") → LifeIndexTools执行 → 返回生活指数
+        <br>若无需更多工具，生成最终回答</div>
+      </div>
+    </div>
+    <div class="process-step">
+      <div class="step-num">7</div>
+      <div class="step-content">
+        <strong>流式输出 (SSE)</strong>
+        <div class="detail">DeepSeek Stream Response → 每4字符分块 → <code>data: {"type":"answer","content":"..."}</code> → 实时推送前端 → 最后发送 <code>data: [DONE]</code></div>
+      </div>
+    </div>
+    <div class="process-step">
+      <div class="step-num">8</div>
+      <div class="step-content">
+        <strong>保存新记忆</strong>
+        <div class="detail">用户问题 + 助手回答 → JSON序列化 → <code>SET agent:memory:demo-001 &lt;json&gt;</code> → 覆盖写入Redis</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>5.4 天气图像识别流程</h3>
+  <div class="flow-box success">
+    <div class="process-step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <strong>前端上传图片</strong>
+        <div class="detail">用户选择天气图片 → multipart/form-data → POST /api/weather-image/predict</div>
+      </div>
+    </div>
+    <div class="process-step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <strong>后端转发模型服务</strong>
+        <div class="detail"><span class="file-ref">WeatherImageController</span> → <span class="file-ref">WeatherImageService</span> → WebClient POST → <code>http://localhost:5000/predict</code></div>
+      </div>
+    </div>
+    <div class="process-step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <strong>Python Flask 推理</strong>
+        <div class="detail"><span class="file-ref">serve_api.py</span>: OpenCV读取 → 224×224 resize → 归一化 → ResNet-18 推理 → Softmax → 四分类结果</div>
+      </div>
+    </div>
+    <div class="process-step">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <strong>返回结果</strong>
+        <div class="detail">{weatherCategory: "sunny", confidence: 0.92} → 前端展示识别结果</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>5.5 天气地图数据加载流程</h3>
+  <div class="flow-box warn">
+    <div class="process-step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <strong>进入地图页面</strong>
+        <div class="detail"><span class="file-ref">MapView.vue</span> → 调用 mapApi.getLayers() → GET /api/weather-map/layers → 获取7种可用图层列表</div>
+      </div>
+    </div>
+    <div class="process-step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <strong>加载图层数据</strong>
+        <div class="detail">GET /api/weather-map/layer/{layerType}?cities=北京,上海,广州... → <span class="file-ref">WeatherMapService</span> 返回各城市该类型的天气值</div>
+      </div>
+    </div>
+    <div class="process-step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <strong>加载GeoJSON边界</strong>
+        <div class="detail">GET /api/weather-map/geojson/100000?type=full → 阿里云DataV API → 返回中国省级/市级GeoJSON</div>
+      </div>
+    </div>
+    <div class="process-step">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <strong>ECharts 渲染地图</strong>
+        <div class="detail">GeoJSON + 图层数据 → ECharts map series → 热力图/散点图渲染 → 支持时间轴动画播放</div>
+      </div>
+    </div>
+    <div class="process-step">
+      <div class="step-num">5</div>
+      <div class="step-content">
+        <strong>多图层叠加</strong>
+        <div class="detail">GET /api/weather-map/multi-layer?layerTypes=temperature,precipitation → 同时返回多个图层数据</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>5.6 数据迁移流程 (Redis → MySQL)</h3>
+  <div class="flow-box">
+    <div class="process-step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <strong>触发迁移</strong>
+        <div class="detail">POST /api/data-migration/migrate → <span class="file-ref">DataMigrationController</span> → <span class="file-ref">DataMigrationService</span></div>
+      </div>
+    </div>
+    <div class="process-step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <strong>扫描Redis数据</strong>
+        <div class="detail">遍历所有城市前缀的天气缓存Key → 反序列化 → 转换为WeatherData实体</div>
+      </div>
+    </div>
+    <div class="process-step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <strong>批量写入MySQL</strong>
+        <div class="detail"><span class="file-ref">WeatherDataMapper.insertBatch()</span> → 批量INSERT</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 6. CODE FILE ORGANIZATION ===== -->
+<section id="files">
+  <h2><span class="dot"></span>六、完整代码文件清单</h2>
+
+  <h3>后端包结构与文件清单</h3>
+  <table>
+    <thead>
+      <tr><th>包/目录</th><th>文件</th><th>职责</th></tr>
+    </thead>
+    <tbody>
+      <tr><td rowspan="12"><strong>controller/</strong><br><span style="color:var(--text-secondary);font-size:0.8rem;">REST API 控制器</span></td></tr>
+      <tr><td><span class="file-ref">HealthController.java</span></td><td>GET /health 健康检查</td></tr>
+      <tr><td><span class="file-ref">WeatherController.java</span></td><td>天气数据CRUD（7个端点）</td></tr>
+      <tr><td><span class="file-ref">WeatherMapController.java</span></td><td>天气地图（9个端点）</td></tr>
+      <tr><td><span class="file-ref">WarningController.java</span></td><td>气象预警（7个端点）</td></tr>
+      <tr><td><span class="file-ref">LifeIndexController.java</span></td><td>生活指数（3个端点）</td></tr>
+      <tr><td><span class="file-ref">AgentController.java</span></td><td>AI智能体（7个端点）</td></tr>
+      <tr><td><span class="file-ref">AiController.java</span></td><td>通用AI对话（5个端点）</td></tr>
+      <tr><td><span class="file-ref">WeatherImageController.java</span></td><td>天气图片识别（1个端点）</td></tr>
+      <tr><td><span class="file-ref">UserController.java</span></td><td>用户系统（5个端点）</td></tr>
+      <tr><td><span class="file-ref">DataMigrationController.java</span></td><td>数据迁移</td></tr>
+      <tr><td><span class="file-ref">BatchWeatherInitController.java</span><br><span class="file-ref">MockDataController.java</span></td><td>初始化/模拟数据</td></tr>
+
+      <tr><td rowspan="15"><strong>service/</strong><br><span style="color:var(--text-secondary);font-size:0.8rem;">业务逻辑层</span></td></tr>
+      <tr><td><span class="file-ref">AiAgentService.java</span></td><td>智能体服务接口</td></tr>
+      <tr><td><span class="file-ref">AliyunAiService.java</span></td><td>DeepSeek/阿里云AI调用</td></tr>
+      <tr><td><span class="file-ref">WeatherService.java</span></td><td>天气数据服务接口</td></tr>
+      <tr><td><span class="file-ref">WeatherMapService.java</span></td><td>天气地图服务</td></tr>
+      <tr><td><span class="file-ref">WarningService.java</span></td><td>预警服务</td></tr>
+      <tr><td><span class="file-ref">LifeIndexService.java</span></td><td>生活指数服务</td></tr>
+      <tr><td><span class="file-ref">WeatherImageService.java</span></td><td>天气图片识别服务</td></tr>
+      <tr><td><span class="file-ref">AuthService.java</span></td><td>认证服务</td></tr>
+      <tr><td><span class="file-ref">UserService.java</span></td><td>用户服务</td></tr>
+      <tr><td><span class="file-ref">DataMigrationService.java</span></td><td>数据迁移服务</td></tr>
+      <tr><td><span class="file-ref">BatchWeatherInitService.java</span></td><td>批量天气初始化</td></tr>
+      <tr><td><span class="file-ref">MockDataInitializationService.java</span></td><td>模拟数据初始化</td></tr>
+      <tr><td><span class="file-ref">MockWeatherDataGenerator.java</span></td><td>模拟天气数据生成器（~300行）</td></tr>
+      <tr><td><span class="file-ref">GeoLookupService.java</span><br><span class="file-ref">ProvinceCityService.java</span></td><td>地理查询/省市服务</td></tr>
+
+      <tr><td><strong>mapper/</strong></td><td><span class="file-ref">UserMapper.java</span> + <span class="file-ref">UserMapper.xml</span><br><span class="file-ref">WeatherDataMapper.java</span> + <span class="file-ref">WeatherDataMapper.xml</span></td><td>MyBatis SQL映射</td></tr>
+      <tr><td><strong>entity/</strong></td><td><span class="file-ref">User.java</span>（17字段）<br><span class="file-ref">WeatherData.java</span>（20字段）</td><td>数据实体</td></tr>
+      <tr><td><strong>dto/request/</strong></td><td>8个请求DTO</td><td>请求参数封装</td></tr>
+      <tr><td><strong>dto/response/</strong></td><td>15个响应DTO（含ApiResponse）</td><td>响应数据封装</td></tr>
+
+      <tr><td rowspan="4"><strong>rag/</strong><br><span style="color:var(--text-secondary);font-size:0.8rem;">RAG管线</span></td></tr>
+      <tr><td><span class="file-ref">KnowledgeDocument.java</span></td><td>知识文档实体</td></tr>
+      <tr><td><span class="file-ref">KnowledgeIngestionService.java</span></td><td>知识入库管线（分段+向量化+存储）</td></tr>
+      <tr><td><span class="file-ref">RedisKnowledgeVectorStore.java</span></td><td>自研Redis向量存储+检索</td></tr>
+      <tr><td></td><td><span class="file-ref">RetrievedChunk.java</span></td><td>检索结果片段</td></tr>
+
+      <tr><td rowspan="3"><strong>tool/</strong><br><span style="color:var(--text-secondary);font-size:0.8rem;">Agent工具</span></td></tr>
+      <tr><td><span class="file-ref">WeatherTools.java</span></td><td>@Tool: 当前天气 + 历史天气查询</td></tr>
+      <tr><td><span class="file-ref">LifeIndexTools.java</span></td><td>@Tool: 生活指数 + 预警查询</td></tr>
+      <tr><td></td><td><span class="file-ref">ExternalWeatherTools.java</span></td><td>@Tool: 外部预报(MetaWeather)</td></tr>
+
+      <tr><td rowspan="6"><strong>config/</strong><br><span style="color:var(--text-secondary);font-size:0.8rem;">配置类</span></td></tr>
+      <tr><td><span class="file-ref">SecurityConfig.java</span></td><td>安全配置（JWT+BCrypt+过滤器链）</td></tr>
+      <tr><td><span class="file-ref">CorsConfig.java</span></td><td>跨域配置</td></tr>
+      <tr><td><span class="file-ref">RedisConfig.java</span></td><td>Redis序列化配置</td></tr>
+      <tr><td><span class="file-ref">AsyncConfig.java</span></td><td>异步任务配置</td></tr>
+      <tr><td><span class="file-ref">DataInitializer.java</span></td><td>数据初始化器</td></tr>
+
+      <tr><td rowspan="3"><strong>security/</strong></td></tr>
+      <tr><td><span class="file-ref">JwtAuthenticationFilter.java</span></td><td>JWT认证过滤器</td></tr>
+      <tr><td><span class="file-ref">JwtTokenProvider.java</span></td><td>JWT令牌生成与解析</td></tr>
+      <tr><td></td><td><span class="file-ref">RateLimitFilter.java</span></td><td>IP频率限制过滤器（120次/分钟）</td></tr>
+
+      <tr><td><strong>client/</strong></td><td><span class="file-ref">MetaWeatherClient.java</span></td><td>MetaWeather 外部API客户端</td></tr>
+      <tr><td><strong>properties/</strong></td><td><span class="file-ref">AliyunAiProperties.java</span></td><td>AI配置属性（RAG参数等）</td></tr>
+    </tbody>
+  </table>
+
+  <h3>前端文件清单</h3>
+  <div class="grid-2">
+    <div class="card">
+      <h4>页面视图 (views/)</h4>
+      <ul>
+        <li><span class="file-ref">HomeView.vue</span> — 首页：实时天气总览</li>
+        <li><span class="file-ref">AnalysisView.vue</span> — 智能分析：数据图表</li>
+        <li><span class="file-ref">MapView.vue</span> — 气象地图：多图层可视化</li>
+        <li><span class="file-ref">LifestyleView.vue</span> — 生活指数：生活健康建议</li>
+        <li><span class="file-ref">AIAssistantView.vue</span> — 天象智囊：AI对话助手</li>
+        <li><span class="file-ref">ProfileView.vue</span> — 个人中心（需登录）</li>
+        <li><span class="file-ref">SettingsView.vue</span> — 设置（需登录）</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>核心组件 (components/)</h4>
+      <ul>
+        <li><span class="file-ref">Navbar.vue</span> — 顶部导航栏</li>
+        <li><span class="file-ref">Footer.vue</span> — 页脚</li>
+        <li><span class="file-ref">AuthModal.vue</span> — 登录/注册弹窗</li>
+        <li><span class="file-ref">LoginPrompt.vue</span> — 登录提示</li>
+        <li><span class="file-ref">WeatherCard.vue</span> — 天气信息卡片</li>
+        <li><span class="file-ref">ChatPanel.vue</span> — AI对话面板</li>
+        <li><span class="file-ref">WeatherMap.vue</span> — 天气地图组件</li>
+        <li><span class="file-ref">WarningPanel.vue</span> — 预警信息面板</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>状态管理 (stores/)</h4>
+      <ul>
+        <li><span class="file-ref">auth.js</span> — 认证状态（token/user/login）</li>
+        <li><span class="file-ref">weather.js</span> — 天气数据状态</li>
+        <li><span class="file-ref">theme.js</span> — 主题模式切换</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>路由与入口</h4>
+      <ul>
+        <li><span class="file-ref">router/index.js</span> — 路由配置 + 导航守卫</li>
+        <li><span class="file-ref">api/index.js</span> — 统一API封装（auth/weather/map/ai/agent/...）</li>
+        <li><span class="file-ref">main.js</span> — 应用入口</li>
+        <li><span class="file-ref">App.vue</span> — 根组件</li>
+        <li><span class="file-ref">vite.config.js</span> — Vite构建配置</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 7. SUMMARY ===== -->
+<section>
+  <h2><span class="dot"></span>七、项目特点与技术亮点总结</h2>
+
+  <div class="grid-3">
+    <div class="card">
+      <h4>🏗️ 架构设计</h4>
+      <ul>
+        <li>前后端分离 + 微服务风格模型服务</li>
+        <li>二级缓存（Redis L1 + MySQL L2）</li>
+        <li>无状态JWT认证 + 限流保护</li>
+        <li>WAR包部署至外部Tomcat</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>🤖 AI 智能体</h4>
+      <ul>
+        <li>Spring AI ChatClient + ToolCallingManager</li>
+        <li>自研Redis向量存储（无需RediSearch）</li>
+        <li>RAG + 工具调用 + 多轮记忆 三位一体</li>
+        <li>显式工具循环避免M6流式崩溃</li>
+        <li>多级降级策略（RAG→工具→纯模型）</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>🎨 前端体验</h4>
+      <ul>
+        <li>Glassmorphism毛玻璃UI设计</li>
+        <li>7个功能页面 + 响应式布局</li>
+        <li>ECharts多维度数据可视化</li>
+        <li>SSE流式AI对话实时渲染</li>
+        <li>Pinia状态管理 + 路由懒加载</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>📊 数据处理</h4>
+      <ul>
+        <li>MetaWeather多数据源融合</li>
+        <li>正弦日变化曲线推演小时预报</li>
+        <li>CompletableFuture并发批量查询</li>
+        <li>多级降级：外部API→历史DB→模拟</li>
+        <li>MapStruct高效对象映射</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>🔐 安全与运维</h4>
+      <ul>
+        <li>BCrypt密码哈希</li>
+        <li>JWT 24h过期 + 签名校验</li>
+        <li>IP限流（120次/分钟普通，10次/分钟认证）</li>
+        <li>环境变量注入敏感信息</li>
+        <li>多Profile配置(dev/prod/h2)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>🧩 扩展能力</h4>
+      <ul>
+        <li>Spring AI兼容任何OpenAI协议LLM</li>
+        <li>RAG知识库Markdown热更新</li>
+        <li>@Tool注解轻松扩展AI能力</li>
+        <li>Redis灵活切换Embedding服务</li>
+        <li>Python模型服务独立部署扩展</li>
+      </ul>
+    </div>
+  </div>
+
+  <hr>
+
+  <div style="text-align:center; color:var(--text-secondary); font-size:0.85rem; padding:1rem;">
+    <strong>技术栈版本：</strong>
+    Spring Boot 3.2.5 | Java 17 | MyBatis 3.0.3 | Spring AI 1.0.0-M6 | DeepSeek (deepseek-chat) |
+    Vue 3.4 | Vite 5 | Pinia 2 | ECharts 5 | Python 3.8+/Flask/PyTorch/ResNet-18 |
+    MySQL 8 | Redis 7 | JWT (jjwt 0.12.5) | BCrypt | MapStruct 1.5.5 | Lombok 1.18.34
+    <br><br>
+    SkyGazer Team © 2026 | MIT License
+  </div>
+</section>
+
+</div>
+</body>
+</html>

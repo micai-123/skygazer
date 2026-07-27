@@ -1,0 +1,143 @@
+﻿### Page
+- Page URL: http://localhost:3002/
+- Page Title: 实时预览 | 智观天象 AI
+- Console: 1 errors, 0 warnings
+### Snapshot
+```yaml
+- generic [ref=e3]:
+  - navigation [ref=e4]:
+    - generic [ref=e5]: 智观天象 AI
+    - generic [ref=e21]:
+      - link "实时预览" [ref=e22] [cursor=pointer]:
+        - /url: /
+      - link "气象地图" [ref=e23] [cursor=pointer]:
+        - /url: /map
+      - link "智能分析" [ref=e24] [cursor=pointer]:
+        - /url: /analysis
+      - link "生活指数" [ref=e25] [cursor=pointer]:
+        - /url: /lifestyle
+      - link "AI智慧助理" [ref=e26] [cursor=pointer]:
+        - /url: /ai-assistant
+    - generic [ref=e27]:
+      - generic [ref=e28]:
+        - paragraph [ref=e29]: 2026年7月10日
+        - paragraph [ref=e30]: 星期五 · 农历二月初六
+      - button "登录" [ref=e32] [cursor=pointer]
+      - button "主题切换" [ref=e37] [cursor=pointer]
+  - main [ref=e41]:
+    - generic [ref=e42]:
+      - generic [ref=e43]:
+        - generic:
+          - generic:
+            - generic:
+              - generic:
+                - generic:
+                  - generic: 上海
+                  - button "获取实时天气"
+                - generic: 良 45
+              - generic:
+                - generic:
+                  - generic: "22"
+                  - generic: °
+                - generic:
+                  - paragraph: 清心晴朗
+                  - generic: 14° / 24°
+              - generic:
+                - generic: 东北风 3级
+                - generic: 湿度 42%
+            - generic:
+              - generic:
+                - generic:
+                  - generic: 紫外线
+                  - generic: 中等
+                - generic:
+                  - generic: 能见度
+                  - generic: 10km
+                - generic:
+                  - generic: 气压
+                  - generic: 1013hPa
+          - generic:
+            - paragraph: 正在获取天气数据...
+      - generic [ref=e45]:
+        - heading [level=3] [ref=e46]:
+          - text: 72小时预测流
+          - generic [ref=e54]: 滚动查看更多
+        - generic [ref=e57]:
+          - generic [ref=e58] [cursor=pointer]:
+            - generic [ref=e59]: 现在
+            - generic [ref=e64]: 22°
+          - generic [ref=e65] [cursor=pointer]:
+            - generic [ref=e66]: 16:00
+            - generic [ref=e71]: 23°
+          - generic [ref=e72] [cursor=pointer]:
+            - generic [ref=e73]: 18:00
+            - generic [ref=e78]: 20°
+          - generic [ref=e79] [cursor=pointer]:
+            - generic [ref=e80]: 20:00
+            - generic [ref=e84]: 18°
+          - generic [ref=e85] [cursor=pointer]:
+            - generic [ref=e86]: 22:00
+            - generic [ref=e90]: 16°
+          - generic [ref=e91] [cursor=pointer]:
+            - generic [ref=e92]: 00:00
+            - generic [ref=e96]: 15°
+          - generic [ref=e97] [cursor=pointer]:
+            - generic [ref=e98]: 02:00
+            - generic [ref=e103]: 14°
+          - generic [ref=e104] [cursor=pointer]:
+            - generic [ref=e105]: 04:00
+            - generic [ref=e110]: 14°
+          - generic [ref=e111] [cursor=pointer]:
+            - generic [ref=e112]: 06:00
+            - generic [ref=e117]: 15°
+          - generic [ref=e118] [cursor=pointer]:
+            - generic [ref=e119]: 08:00
+            - generic [ref=e124]: 18°
+      - generic [ref=e125]:
+        - heading "生活决策" [level=3] [ref=e126]
+        - generic [ref=e129]:
+          - generic [ref=e130] [cursor=pointer]:
+            - heading "穿衣决策" [level=4] [ref=e135]
+            - paragraph [ref=e136]: 建议棉麻质地长袖衫，早晚温差10度，需备薄风衣。
+            - generic [ref=e137]:
+              - generic [ref=e138]: 适中
+              - button "查看详情" [ref=e139]
+          - generic [ref=e142] [cursor=pointer]:
+            - heading "户外运动" [level=4] [ref=e146]
+            - paragraph [ref=e147]: 空气质量优，紫外线中等，适合户外慢跑或飞盘。
+            - generic [ref=e148]:
+              - generic [ref=e149]: 极高
+              - button "查看详情" [ref=e150]
+          - generic [ref=e153] [cursor=pointer]:
+            - heading "洗车指数" [level=4] [ref=e159]
+            - paragraph [ref=e160]: 未来3天无雨，放心洗车。当前尘埃指数低。
+            - generic [ref=e161]:
+              - generic [ref=e162]: 五星
+              - button "查看详情" [ref=e163]
+          - generic [ref=e166] [cursor=pointer]:
+            - heading "呼吸健康" [level=4] [ref=e171]
+            - paragraph [ref=e172]: 花粉浓度较高，建议过敏人群佩戴口罩出门。
+            - generic [ref=e173]:
+              - generic [ref=e174]: 警惕
+              - button "查看详情" [ref=e175]
+      - generic [ref=e179]:
+        - generic [ref=e180]:
+          - generic [ref=e181]: SkyGazer AI 智慧助理
+          - generic [ref=e185]: 在线
+        - generic [ref=e192]:
+          - generic [ref=e193]:
+            - generic [ref=e194]: 天象智囊
+            - generic [ref=e195]: 14:43
+            - button "复制" [ref=e196] [cursor=pointer]
+          - paragraph [ref=e202]: 你好！我是天象智囊，您的专业气象助手。我可以帮您查询天气、分析气象数据、提供活动建议。请问有什么可以帮您的？
+        - generic [ref=e203]:
+          - textbox "询问天气、穿衣或行程建议…" [ref=e204]
+          - button "发送消息" [disabled] [ref=e205]
+  - contentinfo [ref=e208]:
+    - generic [ref=e209]:
+      - generic [ref=e210]: SkyGazer AI
+      - paragraph [ref=e226]: 基于 2026 年最新量子气象模型与边缘 AI 识别技术，为您提供毫秒级的气象决策支持。
+    - paragraph [ref=e228]: © 2026 SkyGazer AI. All rights reserved.
+```
+### Events
+- New console entries: .playwright-cli\console-2026-07-10T06-43-39-869Z.log#L1

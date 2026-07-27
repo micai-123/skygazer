@@ -1,0 +1,30 @@
+# Weather Image Classification Project Dependencies
+
+# Core Deep Learning
+torch>=1.12
+torchvision>=0.13
+
+# Data Processing
+numpy>=1.21.0
+opencv-python>=4.5.0
+pillow>=8.0.0
+
+# Visualization & Analysis
+matplotlib>=3.4.0
+seaborn>=0.11.0
+scikit-learn>=0.24.0
+tqdm>=4.62.0
+
+# Training Monitoring
+tensorboard>=2.6.0
+plotly>=5.14.0
+
+# Optional: Model Export & Deployment
+# onnx>=1.12.0
+# onnxruntime>=1.12.0
+
+# Web Service (模型 API 封装)
+flask>=2.3
+
+# Optional: Advanced Data Augmentation
+# albumentations>=1.3.0

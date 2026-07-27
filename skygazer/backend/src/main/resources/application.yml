@@ -1,0 +1,119 @@
+spring:
+  application:
+    name: skygazer-weather-backend
+  
+  profiles:
+    active: dev
+  
+  datasource:
+    url: jdbc:mysql://localhost:3306/skygazer_weather?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:root}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 5
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+  
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+      database: 0
+      timeout: 10000ms
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 0
+
+  # ============================================================
+  # Spring AI（混合气象智能体）：复用阿里云百炼 Qwen 的 OpenAI 兼容端点
+  # - 对话：spring.ai.openai.chat（与 ai.aliyun.openaiCompatibleUrl 同一地址）
+  # - 向量化：spring.ai.openai.embedding（Qwen text-embedding-v2/v3）
+  # ============================================================
+  ai:
+    openai:
+      # 已切换为 DeepSeek（OpenAI 兼容协议）
+      # 注意：Spring AI 会自动拼接 /v1/chat/completions，故 base-url 不含 /v1
+      api-key: ${ALIYUN_AI_API_KEY:your-api-key-here}
+      base-url: ${ALIYUN_AI_OPENAI_BASE:https://api.deepseek.com}
+      chat:
+        options:
+          model: ${ALIYUN_AI_MODEL:deepseek-chat}
+          temperature: 0.8
+      embedding:
+        # 注意：DeepSeek 不提供 Embedding 接口，向量库已关闭（ai.aliyun.vector-store-enabled=false）
+        api-key: ${ALIYUN_AI_API_KEY:your-api-key-here}
+        base-url: ${ALIYUN_AI_OPENAI_BASE:https://api.deepseek.com}
+        options:
+          model: text-embedding-v2
+
+mybatis:
+  mapper-locations: classpath:mybatis/mapper/*.xml
+  type-aliases-package: com.skygazer.weather.entity
+  configuration:
+    map-underscore-to-camel-case: true
+
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+  compression:
+    enabled: true
+    mime-types: application/json,text/html,text/xml,text/plain
+
+jwt:
+  secret: ${JWT_SECRET:skygazer-weather-secret-key-2026-must-be-at-least-256-bits}
+  expiration: 86400000
+  header: Authorization
+  prefix: "Bearer "
+
+metaweather:
+  api:
+    base-url: ${METAWEATHER_BASE_URL:https://www.metaweather.com}
+
+geo:
+  datav:
+    base-url: ${GEO_DATAV_BASE_URL:https://geo.datav.aliyun.com}
+
+weather-image:
+  model:
+    base-url: ${WEATHER_MODEL_BASE_URL:http://localhost:5000}
+    max-file-size: 10485760
+    connect-timeout: 5
+    response-timeout: 30
+
+logging:
+  level:
+    root: INFO
+    com.skygazer: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+app:
+  weather:
+    init-on-startup: false
+
+# ============================================================
+# 阿里云百炼 MaaS（大模型即服务）AI 配置
+# 说明：
+#  - OpenAI 兼容地址：https://<host>/compatible-mode/v1   （本项目使用此方式接入）
+#  - DashScope 地址：    https://<host>/api/v1
+#  - model 需替换为你在阿里云 MaaS 控制台为该服务部署的模型/服务名称
+#  - 实际密钥建议通过环境变量注入（ALIYUN_AI_API_KEY 等），下方为默认值
+# ============================================================
+ai:
+  aliyun:
+    # 已切换为 DeepSeek（OpenAI 兼容协议）
+    api-key: ${ALIYUN_AI_API_KEY:your-api-key-here}
+    host: ${ALIYUN_AI_HOST:api.deepseek.com}
+    openai-compatible-url: ${ALIYUN_AI_OPENAI_URL:https://api.deepseek.com/v1}
+    dashscope-url: ${ALIYUN_AI_DASHSCOPE_URL:https://api.deepseek.com}
+    model: ${ALIYUN_AI_MODEL:deepseek-chat}
+    temperature: 0.8
+    max-tokens: 2000
+    timeout-seconds: 60

@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/skygazer_weather?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:root}
+
+ai:
+  aliyun:
+    # DeepSeek 无 Embedding 接口，关闭向量检索以规避启动期 embedding 失败
+    vector-store-enabled: false
+
+logging:
+  level:
+    root: INFO
+    com.skygazer: DEBUG

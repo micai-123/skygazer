@@ -1,0 +1,440 @@
+/* ============================================================
+   SkyGazer · 智观天象 — 签名设计系统（深色优先 / 气象指挥中心）
+   配色基于 OKLCH 心智推导，落地为 CSS 自定义属性。
+   旧令牌名（--blue-* / --glass-* / --weather-* / --ai-*）保留定义并
+   重映射为签名色阶，以保证组件零改即继承新视觉。
+   ============================================================ */
+
+:root {
+  /* —— 签名信号色 —— */
+  --signal: #34E3E0;          /* 极光青：导航激活 / 焦点 / 数据强调 / 图表主色 */
+  --signal-strong: #16C7C4;
+  --signal-soft: rgba(52, 227, 224, 0.12);
+  --signal-line: rgba(52, 227, 224, 0.30);
+  --on-signal: #04181A;       /* 信号色之上的文字：深色底用深字，浅色底用白字 */
+  --warn: #FF9F45;            /* 暖琥珀：警示 / 人文暖意 */
+  --danger: #F87171;
+  --ok: #34D399;
+
+  /* —— 实体表面（深色，solid，无磨砂）—— */
+  --space-900: #0B0F1A;       /* 深空底 */
+  --space-800: #0E1322;
+  --surface-1: #141B2D;       /* 抬升面 A */
+  --surface-2: #1B2438;       /* 抬升面 B */
+  --surface-3: #22304D;       /* 抬升面 C（hover / 强调） */
+  --bg-primary: var(--surface-1);   /* 替代旧浅色 #f8fafc 底色（组件 fallback 用途） */
+
+  --border-subtle: rgba(159, 176, 204, 0.12);
+  --border-strong: rgba(159, 176, 204, 0.24);
+
+  --text-primary: #EAF2FF;
+  --text-secondary: #9FB0CC;
+  --text-muted: #6B7A99;      /* 仅用于大字号 / 装饰，不用于正文 */
+
+  /* 阴影：单值，blur < 16px；与边框不同时叠加 */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.45);
+  --shadow-md: 0 6px 14px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 18px 40px rgba(0, 0, 0, 0.55);   /* 仅用于浮层/模态，不带 1px 边框 */
+
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 18px;
+  --radius-pill: 999px;
+
+  --transition-speed: 0.35s;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* 语义化 z-index 比例尺 */
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-overlay: 800;
+  --z-modal: 900;
+  --z-toast: 1000;
+  --z-tooltip: 1100;
+
+  /* —— 旧令牌重映射（极光青签名色阶，保持组件兼容）—— */
+  --blue-50: #E6FBFA;
+  --blue-100: #C2F4F2;
+  --blue-200: #8FE9E6;
+  --blue-300: #5FD9D6;
+  --blue-400: #45D4D0;
+  --blue-500: #34E3E0;        /* → signal */
+  --blue-600: #16C7C4;
+  --blue-700: #0FA8A5;
+  --blue-800: #0B6B69;        /* 深信号（用于深色底上的填充/描边，不用于文本） */
+  --blue-900: #EAF2FF;        /* 重映射为可见亮色（原深青墨在深色底不可见），用于标题文本 */
+
+  --orange-400: #FF9F45;      /* → warn */
+  --green-500: #34D399;       /* → ok */
+
+  --glass-bg: rgba(20, 27, 45, 0.92);     /* 仅浮层/模态使用 */
+  --glass-border: rgba(159, 176, 204, 0.18);
+
+  --weather-primary: #34E3E0;
+  --weather-secondary: #1B2438;
+  --weather-tertiary: #0B0F1A;
+
+  /* AI 模块令牌（极光青锚定） */
+  --card-bg: var(--surface-1);
+  --border-color: var(--border-subtle);
+  --ai-sidebar-bg: rgba(14, 19, 34, 0.85);
+  --ai-step-bg: rgba(52, 227, 224, 0.06);
+  --ai-step-border: rgba(52, 227, 224, 0.20);
+  --ai-step-hover: rgba(52, 227, 224, 0.12);
+  --ai-chip-bg: rgba(52, 227, 224, 0.12);
+  --ai-chip-border: rgba(52, 227, 224, 0.28);
+}
+
+/* 天气态：产品级签名着色，仅调整色相与辉光，不新增数据流 */
+[data-weather="clear"] {
+  --weather-accent: #34E3E0;
+  --weather-glow: rgba(52, 227, 224, 0.16);
+}
+[data-weather="cloudy"] {
+  --weather-accent: #8FA3C4;
+  --weather-glow: rgba(143, 163, 196, 0.12);
+}
+[data-weather="rain"] {
+  --weather-accent: #7C8CF8;
+  --weather-glow: rgba(124, 140, 248, 0.14);
+}
+[data-weather="dark"] {
+  --weather-accent: #FF9F45;
+  --weather-glow: rgba(255, 159, 69, 0.14);
+}
+[data-weather="storm"] {
+  --weather-accent: #FF9F45;
+  --weather-glow: rgba(255, 159, 69, 0.20);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scrollbar-color: var(--surface-3) var(--space-900);
+  scrollbar-width: thin;
+}
+
+body {
+  font-family: 'Sora', -apple-system, BlinkMacSystemFont, 'PingFang SC',
+    'Hiragino Sans GB', 'Microsoft YaHei', 'Source Han Sans CN', 'Noto Sans SC', sans-serif;
+  font-display: swap;
+  background:
+    radial-gradient(1100px 560px at 82% -8%, var(--weather-glow), transparent 60%),
+    radial-gradient(900px 500px at 8% 108%, rgba(124, 140, 248, 0.08), transparent 55%),
+    linear-gradient(160deg, #0B0F1A 0%, #0E1322 55%, #0B0F1A 100%);
+  background-attachment: fixed;
+  color: var(--text-primary);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--signal-soft);
+  color: var(--text-primary);
+}
+
+p, li, h1, h2, h3, h4, h5, h6 {
+  max-width: 72ch;
+}
+
+h1, h2, h3 {
+  text-wrap: balance;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+#app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* —— 实体表面工具类（替代玻璃默认）—— */
+.surface {
+  background: var(--surface-1);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+}
+
+.panel {
+  background: var(--surface-2);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+}
+
+.appbar {
+  background: var(--space-800);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+/* .glass-card 重定义为实体抬升面板：无磨砂，边框 + 小阴影（不同时用大阴影） */
+.glass-card {
+  background: var(--surface-1);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s var(--ease-out), border-color 0.2s ease, background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.glass-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-md);
+}
+
+.glass-nav {
+  background: var(--space-800);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+/* 等宽数据点：气象数值的精密感 */
+.mono,
+.data-point {
+  font-family: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+/* 信号标签 / 胶囊 */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  padding: 0.25rem 0.7rem;
+  border-radius: var(--radius-pill);
+  background: var(--signal-soft);
+  border: 1px solid var(--signal-line);
+  color: var(--signal);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+/* 焦点环：极光青，统一 */
+:focus-visible {
+  outline: 2px solid var(--signal);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--signal);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px var(--signal-soft);
+}
+
+/* 交互：ease-out 指数曲线，无 bounce */
+button,
+.button {
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+}
+
+button:hover,
+.button:hover {
+  transform: translateY(-1px);
+  transition: transform 0.15s var(--ease-out);
+}
+
+button:active,
+.button:active {
+  transform: translateY(0) scale(0.98);
+  transition: transform 0.1s ease;
+}
+
+a:hover {
+  transform: translateY(-1px);
+  transition: transform 0.15s var(--ease-out);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+/* —— 动画关键帧（服务于已可见内容，非装饰循环）—— */
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.2); }
+}
+.pulse-animation { animation: pulse 2s ease-in-out infinite; }
+.will-animate { will-change: transform, opacity; }
+
+@keyframes radar-rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.radar-animation { animation: radar-rotate 20s linear infinite; will-change: transform; }
+
+@keyframes message-slide {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes typing {
+  0%, 60%, 100% { transform: translateY(0); background: var(--surface-2); }
+  30% { transform: translateY(-4px); background: var(--surface-3); }
+}
+
+/* 路由过渡：fade + 微位移 */
+.view-enter-active,
+.view-leave-active {
+  transition: opacity 0.3s var(--ease-out), transform 0.3s var(--ease-out);
+}
+.view-enter-from {
+  opacity: 0;
+  transform: translateY(8px);
+}
+.view-leave-to {
+  opacity: 0;
+  transform: translateY(-6px);
+}
+.view-leave-active {
+  position: absolute;
+  width: 100%;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* —— 浅色主题：精修版「晴空指挥中心」—— */
+[data-theme="light"] {
+  /* 信号色：浅底上降饱和、提对比，保留极光青签名 */
+  --signal: #0E9C99;
+  --signal-strong: #0B827F;
+  --signal-soft: rgba(14, 156, 153, 0.10);
+  --signal-line: rgba(14, 156, 153, 0.28);
+  --on-signal: #FFFFFF;        /* 浅底信号按钮改用白字 */
+
+  /* 语义色：浅底上提对比 */
+  --warn: #E07B1A;
+  --danger: #DC4A4A;
+  --ok: #1FA97E;
+
+  /* 旧令牌浅色重映射：保留极光青签名，浅底上转深青以保证可读
+     （这些变量在 :root 为亮色，浅色主题若不复盖会导致白字/亮青字） */
+  --blue-50: #E0F7F6;
+  --blue-100: #B3ECEA;
+  --blue-200: #7FD8D5;
+  --blue-300: #4CC3C0;
+  --blue-400: #1FA8A5;
+  --blue-500: #0E9C99;
+  --blue-600: #0B827F;
+  --blue-700: #0A6B69;
+  --blue-800: #085452;
+  --blue-900: #064E4C;          /* 标题文本：浅底上深青可读 */
+  --orange-400: #E07B1A;
+  --green-500: #1FA97E;
+  --weather-primary: #0E9C99;
+  --weather-secondary: #F3F7FC;
+  --weather-tertiary: #EDF2FA;
+
+  /* 表面：明亮分层 */
+  --space-900: #EDF2FA;
+  --space-800: #E3EBF5;
+  --surface-1: #FFFFFF;
+  --surface-2: #F3F7FC;
+  --surface-3: #E7EEF7;
+  --bg-primary: var(--surface-1);
+
+  --border-subtle: rgba(11, 18, 32, 0.10);
+  --border-strong: rgba(11, 18, 32, 0.18);
+
+  --text-primary: #0B1220;
+  --text-secondary: #44546E;
+  --text-muted: #7A899E;
+
+  --weather-glow: rgba(14, 156, 153, 0.12);
+
+  --shadow-sm: 0 1px 2px rgba(11, 18, 32, 0.07);
+  --shadow-md: 0 6px 16px rgba(11, 18, 32, 0.09);
+  --shadow-lg: 0 18px 44px rgba(11, 18, 32, 0.16);
+
+  --glass-bg: rgba(255, 255, 255, 0.78);
+  --glass-border: rgba(11, 18, 32, 0.10);
+
+  --card-bg: #FFFFFF;
+  --ai-sidebar-bg: rgba(255, 255, 255, 0.82);
+  --ai-step-bg: rgba(14, 156, 153, 0.06);
+  --ai-step-border: rgba(14, 156, 153, 0.22);
+  --ai-step-hover: rgba(14, 156, 153, 0.12);
+  --ai-chip-bg: rgba(14, 156, 153, 0.12);
+  --ai-chip-border: rgba(14, 156, 153, 0.30);
+}
+[data-theme="light"] body {
+  background:
+    radial-gradient(1100px 560px at 82% -8%, rgba(14, 156, 153, 0.12), transparent 60%),
+    radial-gradient(900px 500px at 8% 108%, rgba(99, 102, 241, 0.07), transparent 55%),
+    linear-gradient(160deg, #EDF2FA 0%, #E4ECF6 55%, #EDF2FA 100%);
+  background-attachment: fixed;
+  color: var(--text-primary);
+}
+[data-theme="light"] .glass-card:hover { background: #FFFFFF; }
+
+[data-theme="dark"] body,
+[data-theme="auto"] body {
+  background:
+    radial-gradient(1100px 560px at 82% -8%, var(--weather-glow), transparent 60%),
+    radial-gradient(900px 500px at 8% 108%, rgba(124, 140, 248, 0.08), transparent 55%),
+    linear-gradient(160deg, #0B0F1A 0%, #0E1322 55%, #0B0F1A 100%);
+  background-attachment: fixed;
+}
+
+[data-theme="auto"] {
+  --signal: #34E3E0;
+  --text-primary: #EAF2FF;
+  --text-secondary: #9FB0CC;
+  --text-muted: #6B7A99;
+}
+
+/* —— 减少动效：必须降级 —— */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .glass-card:hover,
+  button:hover,
+  .button:hover,
+  a:hover {
+    transform: none;
+  }
+  .view-enter-active,
+  .view-leave-active {
+    transition: opacity 0.01ms !important;
+  }
+}

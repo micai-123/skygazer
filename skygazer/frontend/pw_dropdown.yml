@@ -1,0 +1,338 @@
+﻿### Page
+- Page URL: http://localhost:3002/
+- Page Title: 实时预览 | 智观天象 AI
+- Console: 2 errors, 0 warnings
+### Snapshot
+```yaml
+- generic [ref=e1]:
+  - generic [ref=e3]:
+    - navigation [ref=e4]:
+      - generic [ref=e5]: 智观天象 AI
+      - generic [ref=e21]:
+        - link "实时预览" [ref=e22] [cursor=pointer]:
+          - /url: /
+        - link "气象地图" [ref=e23] [cursor=pointer]:
+          - /url: /map
+        - link "智能分析" [ref=e24] [cursor=pointer]:
+          - /url: /analysis
+        - link "生活指数" [ref=e25] [cursor=pointer]:
+          - /url: /lifestyle
+        - link "AI智慧助理" [ref=e26] [cursor=pointer]:
+          - /url: /ai-assistant
+      - generic [ref=e27]:
+        - generic [ref=e28]:
+          - paragraph [ref=e29]: 2026年7月10日
+          - paragraph [ref=e30]: 星期五 · 农历二月初六
+        - button "登录" [ref=e32] [cursor=pointer]
+        - button "主题切换" [ref=e37] [cursor=pointer]
+    - main [ref=e41]:
+      - generic [ref=e42]:
+        - generic [ref=e230]:
+          - generic [ref=e231]:
+            - generic [ref=e232]:
+              - generic [ref=e233]:
+                - generic [ref=e234]: 上海
+                - button "获取实时天气" [ref=e241] [cursor=pointer]
+              - generic [ref=e245]: 良 50
+            - generic [ref=e248]:
+              - generic [ref=e249]:
+                - generic [ref=e250]: "31.8"
+                - generic [ref=e251]: °
+              - generic [ref=e252]:
+                - paragraph [ref=e253]: 晴朗
+                - generic [ref=e254]: 15° / 25°
+            - generic [ref=e255]:
+              - generic [ref=e256]: 微风
+              - generic [ref=e261]: 湿度 53.4%
+          - generic [ref=e279]:
+            - generic [ref=e280]:
+              - generic [ref=e284]: 紫外线
+              - generic [ref=e285]: 中等
+            - generic [ref=e286]:
+              - generic [ref=e290]: 能见度
+              - generic [ref=e291]: 10km
+            - generic [ref=e292]:
+              - generic [ref=e296]: 气压
+              - generic [ref=e297]: 1013hPa
+        - generic [ref=e45]:
+          - heading [level=3] [ref=e46]:
+            - text: 72小时预测流
+            - generic [ref=e54]: 滚动查看更多
+          - generic [ref=e57]:
+            - generic [ref=e58] [cursor=pointer]:
+              - generic [ref=e59]: 现在
+              - generic [ref=e64]: 36°
+            - generic [ref=e65] [cursor=pointer]:
+              - generic [ref=e66]: 15:00
+              - generic [ref=e71]: 35°
+            - generic [ref=e72] [cursor=pointer]:
+              - generic [ref=e73]: 16:00
+              - generic [ref=e78]: 37°
+            - generic [ref=e79] [cursor=pointer]:
+              - generic [ref=e80]: 17:00
+              - generic [ref=e84]: 35°
+            - generic [ref=e85] [cursor=pointer]:
+              - generic [ref=e86]: 18:00
+              - generic [ref=e90]: 37°
+            - generic [ref=e91] [cursor=pointer]:
+              - generic [ref=e92]: 19:00
+              - generic [ref=e96]: 38°
+            - generic [ref=e97] [cursor=pointer]:
+              - generic [ref=e98]: 20:00
+              - generic [ref=e103]: 38°
+            - generic [ref=e104] [cursor=pointer]:
+              - generic [ref=e105]: 21:00
+              - generic [ref=e110]: 39°
+            - generic [ref=e111] [cursor=pointer]:
+              - generic [ref=e112]: 22:00
+              - generic [ref=e117]: 40°
+            - generic [ref=e118] [cursor=pointer]:
+              - generic [ref=e119]: 23:00
+              - generic [ref=e124]: 42°
+            - generic [ref=e319] [cursor=pointer]:
+              - generic [ref=e320]: 00:00
+              - generic [ref=e325]: 41°
+            - generic [ref=e326] [cursor=pointer]:
+              - generic [ref=e327]: 01:00
+              - generic [ref=e332]: 41°
+            - generic [ref=e333] [cursor=pointer]:
+              - generic [ref=e334]: 02:00
+              - generic [ref=e339]: 40°
+            - generic [ref=e340] [cursor=pointer]:
+              - generic [ref=e341]: 03:00
+              - generic [ref=e346]: 39°
+            - generic [ref=e347] [cursor=pointer]:
+              - generic [ref=e348]: 04:00
+              - generic [ref=e353]: 39°
+            - generic [ref=e354] [cursor=pointer]:
+              - generic [ref=e355]: 05:00
+              - generic [ref=e360]: 42°
+            - generic [ref=e361] [cursor=pointer]:
+              - generic [ref=e362]: 06:00
+              - generic [ref=e367]: 40°
+            - generic [ref=e368] [cursor=pointer]:
+              - generic [ref=e369]: 07:00
+              - generic [ref=e374]: 40°
+            - generic [ref=e375] [cursor=pointer]:
+              - generic [ref=e376]: 08:00
+              - generic [ref=e381]: 37°
+            - generic [ref=e382] [cursor=pointer]:
+              - generic [ref=e383]: 09:00
+              - generic [ref=e388]: 39°
+            - generic [ref=e389] [cursor=pointer]:
+              - generic [ref=e390]: 10:00
+              - generic [ref=e395]: 39°
+            - generic [ref=e396] [cursor=pointer]:
+              - generic [ref=e397]: 11:00
+              - generic [ref=e402]: 37°
+            - generic [ref=e403] [cursor=pointer]:
+              - generic [ref=e404]: 12:00
+              - generic [ref=e409]: 35°
+            - generic [ref=e410] [cursor=pointer]:
+              - generic [ref=e411]: 13:00
+              - generic [ref=e416]: 35°
+            - generic [ref=e417] [cursor=pointer]:
+              - generic [ref=e418]: 14:00
+              - generic [ref=e423]: 38°
+            - generic [ref=e424] [cursor=pointer]:
+              - generic [ref=e425]: 7/11 15:00
+              - generic [ref=e430]: 38°
+            - generic [ref=e431] [cursor=pointer]:
+              - generic [ref=e432]: 7/11 16:00
+              - generic [ref=e437]: 35°
+            - generic [ref=e438] [cursor=pointer]:
+              - generic [ref=e439]: 7/11 17:00
+              - generic [ref=e444]: 35°
+            - generic [ref=e445] [cursor=pointer]:
+              - generic [ref=e446]: 7/11 18:00
+              - generic [ref=e451]: 39°
+            - generic [ref=e452] [cursor=pointer]:
+              - generic [ref=e453]: 7/11 19:00
+              - generic [ref=e458]: 37°
+            - generic [ref=e459] [cursor=pointer]:
+              - generic [ref=e460]: 7/11 20:00
+              - generic [ref=e465]: 39°
+            - generic [ref=e466] [cursor=pointer]:
+              - generic [ref=e467]: 7/11 21:00
+              - generic [ref=e472]: 38°
+            - generic [ref=e473] [cursor=pointer]:
+              - generic [ref=e474]: 7/11 22:00
+              - generic [ref=e479]: 40°
+            - generic [ref=e480] [cursor=pointer]:
+              - generic [ref=e481]: 7/11 23:00
+              - generic [ref=e486]: 41°
+            - generic [ref=e487] [cursor=pointer]:
+              - generic [ref=e488]: 7/12 00:00
+              - generic [ref=e493]: 42°
+            - generic [ref=e494] [cursor=pointer]:
+              - generic [ref=e495]: 7/12 01:00
+              - generic [ref=e500]: 42°
+            - generic [ref=e501] [cursor=pointer]:
+              - generic [ref=e502]: 7/12 02:00
+              - generic [ref=e507]: 40°
+            - generic [ref=e508] [cursor=pointer]:
+              - generic [ref=e509]: 7/12 03:00
+              - generic [ref=e514]: 41°
+            - generic [ref=e515] [cursor=pointer]:
+              - generic [ref=e516]: 7/12 04:00
+              - generic [ref=e521]: 41°
+            - generic [ref=e522] [cursor=pointer]:
+              - generic [ref=e523]: 7/12 05:00
+              - generic [ref=e528]: 39°
+            - generic [ref=e529] [cursor=pointer]:
+              - generic [ref=e530]: 7/12 06:00
+              - generic [ref=e535]: 41°
+            - generic [ref=e536] [cursor=pointer]:
+              - generic [ref=e537]: 7/12 07:00
+              - generic [ref=e542]: 40°
+            - generic [ref=e543] [cursor=pointer]:
+              - generic [ref=e544]: 7/12 08:00
+              - generic [ref=e549]: 39°
+            - generic [ref=e550] [cursor=pointer]:
+              - generic [ref=e551]: 7/12 09:00
+              - generic [ref=e556]: 38°
+            - generic [ref=e557] [cursor=pointer]:
+              - generic [ref=e558]: 7/12 10:00
+              - generic [ref=e563]: 38°
+            - generic [ref=e564] [cursor=pointer]:
+              - generic [ref=e565]: 7/12 11:00
+              - generic [ref=e570]: 35°
+            - generic [ref=e571] [cursor=pointer]:
+              - generic [ref=e572]: 7/12 12:00
+              - generic [ref=e577]: 36°
+            - generic [ref=e578] [cursor=pointer]:
+              - generic [ref=e579]: 7/12 13:00
+              - generic [ref=e584]: 38°
+            - generic [ref=e585] [cursor=pointer]:
+              - generic [ref=e586]: 7/12 14:00
+              - generic [ref=e591]: 37°
+            - generic [ref=e592] [cursor=pointer]:
+              - generic [ref=e593]: 7/12 15:00
+              - generic [ref=e598]: 38°
+            - generic [ref=e599] [cursor=pointer]:
+              - generic [ref=e600]: 7/12 16:00
+              - generic [ref=e605]: 37°
+            - generic [ref=e606] [cursor=pointer]:
+              - generic [ref=e607]: 7/12 17:00
+              - generic [ref=e612]: 36°
+            - generic [ref=e613] [cursor=pointer]:
+              - generic [ref=e614]: 7/12 18:00
+              - generic [ref=e619]: 38°
+            - generic [ref=e620] [cursor=pointer]:
+              - generic [ref=e621]: 7/12 19:00
+              - generic [ref=e626]: 38°
+            - generic [ref=e627] [cursor=pointer]:
+              - generic [ref=e628]: 7/12 20:00
+              - generic [ref=e633]: 40°
+            - generic [ref=e634] [cursor=pointer]:
+              - generic [ref=e635]: 7/12 21:00
+              - generic [ref=e640]: 38°
+            - generic [ref=e641] [cursor=pointer]:
+              - generic [ref=e642]: 7/12 22:00
+              - generic [ref=e647]: 39°
+            - generic [ref=e648] [cursor=pointer]:
+              - generic [ref=e649]: 7/12 23:00
+              - generic [ref=e654]: 40°
+            - generic [ref=e655] [cursor=pointer]:
+              - generic [ref=e656]: 7/13 00:00
+              - generic [ref=e661]: 40°
+            - generic [ref=e662] [cursor=pointer]:
+              - generic [ref=e663]: 7/13 01:00
+              - generic [ref=e668]: 41°
+            - generic [ref=e669] [cursor=pointer]:
+              - generic [ref=e670]: 7/13 02:00
+              - generic [ref=e675]: 41°
+            - generic [ref=e676] [cursor=pointer]:
+              - generic [ref=e677]: 7/13 03:00
+              - generic [ref=e682]: 40°
+            - generic [ref=e683] [cursor=pointer]:
+              - generic [ref=e684]: 7/13 04:00
+              - generic [ref=e689]: 41°
+            - generic [ref=e690] [cursor=pointer]:
+              - generic [ref=e691]: 7/13 05:00
+              - generic [ref=e696]: 40°
+            - generic [ref=e697] [cursor=pointer]:
+              - generic [ref=e698]: 7/13 06:00
+              - generic [ref=e703]: 38°
+            - generic [ref=e704] [cursor=pointer]:
+              - generic [ref=e705]: 7/13 07:00
+              - generic [ref=e710]: 39°
+            - generic [ref=e711] [cursor=pointer]:
+              - generic [ref=e712]: 7/13 08:00
+              - generic [ref=e717]: 38°
+            - generic [ref=e718] [cursor=pointer]:
+              - generic [ref=e719]: 7/13 09:00
+              - generic [ref=e724]: 37°
+            - generic [ref=e725] [cursor=pointer]:
+              - generic [ref=e726]: 7/13 10:00
+              - generic [ref=e731]: 36°
+            - generic [ref=e732] [cursor=pointer]:
+              - generic [ref=e733]: 7/13 11:00
+              - generic [ref=e738]: 38°
+            - generic [ref=e739] [cursor=pointer]:
+              - generic [ref=e740]: 7/13 12:00
+              - generic [ref=e745]: 37°
+            - generic [ref=e746] [cursor=pointer]:
+              - generic [ref=e747]: 7/13 13:00
+              - generic [ref=e752]: 38°
+        - generic [ref=e125]:
+          - heading "生活决策" [level=3] [ref=e126]
+          - generic [ref=e129]:
+            - generic [ref=e130] [cursor=pointer]:
+              - heading "穿衣" [level=4] [ref=e753]
+              - paragraph [ref=e136]: 天气较热，建议穿着轻薄透气的夏装
+              - generic [ref=e137]:
+                - generic [ref=e138]: 薄款夏装
+                - button "查看详情" [ref=e139]
+            - generic [ref=e142] [cursor=pointer]:
+              - heading "运动" [level=4] [ref=e754]
+              - paragraph [ref=e147]: 天气较好，适合户外运动
+              - generic [ref=e148]:
+                - generic [ref=e149]: 较适宜
+                - button "查看详情" [ref=e150]
+            - generic [ref=e153] [cursor=pointer]:
+              - heading "洗车" [level=4] [ref=e755]
+              - paragraph [ref=e160]: 未来两天无雨，适合洗车
+              - generic [ref=e161]:
+                - generic [ref=e162]: 适宜
+                - button "查看详情" [ref=e163]
+            - generic [ref=e166] [cursor=pointer]:
+              - heading "紫外线" [level=4] [ref=e756]
+              - paragraph [ref=e172]: 紫外线强度中等，建议涂抹防晒霜
+              - generic [ref=e173]:
+                - generic [ref=e174]: 中等
+                - button "查看详情" [ref=e175]
+        - generic [ref=e179]:
+          - generic [ref=e180]:
+            - generic [ref=e181]: SkyGazer AI 智慧助理
+            - generic [ref=e185]: 在线
+          - generic [ref=e192]:
+            - generic [ref=e193]:
+              - generic [ref=e194]: 天象智囊
+              - generic [ref=e195]: 14:43
+              - button "复制" [ref=e196] [cursor=pointer]
+            - paragraph [ref=e202]: 你好！我是天象智囊，您的专业气象助手。我可以帮您查询天气、分析气象数据、提供活动建议。请问有什么可以帮您的？
+          - generic [ref=e203]:
+            - textbox "询问天气、穿衣或行程建议…" [ref=e204]
+            - button "发送消息" [disabled] [ref=e205]
+    - contentinfo [ref=e208]:
+      - generic [ref=e209]:
+        - generic [ref=e210]: SkyGazer AI
+        - paragraph [ref=e226]: 基于 2026 年最新量子气象模型与边缘 AI 识别技术，为您提供毫秒级的气象决策支持。
+      - paragraph [ref=e228]: © 2026 SkyGazer AI. All rights reserved.
+  - generic [ref=e758]:
+    - textbox "搜索城市（拼音/汉字）" [active] [ref=e764]
+    - generic [ref=e765]:
+      - generic [ref=e766]: 热门城市
+      - generic [ref=e769]:
+        - button "北京" [ref=e770] [cursor=pointer]
+        - button "上海" [ref=e771] [cursor=pointer]
+        - button "广州" [ref=e772] [cursor=pointer]
+        - button "深圳" [ref=e773] [cursor=pointer]
+        - button "杭州" [ref=e774] [cursor=pointer]
+        - button "成都" [ref=e775] [cursor=pointer]
+        - button "武汉" [ref=e776] [cursor=pointer]
+        - button "西安" [ref=e777] [cursor=pointer]
+        - button "南京" [ref=e778] [cursor=pointer]
+        - button "重庆" [ref=e779] [cursor=pointer]
+```
